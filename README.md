@@ -17,5 +17,11 @@
 | email      | musi zgadzac się regex              | email                      |
 | unique     | nie może być takiego adresu w bazie | email                      |
 
+### Serwer zwraca response:
+| response_json  | description                                         |
+|----------------|-----------------------------------------------------|
+| status         | zwróci Ci 'error' albo 'success'                    |
+| message        | zwróci Ci informacje na temat error albo success    |
+| server_message | Zwróci Ci tylko ten komunikat, jeśli wyrzuci serwer |
 
 
