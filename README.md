@@ -2,4 +2,6 @@
 
 
 ### Rejestracja
-#### ściężka_serwera/api/routers/http/controllers/auth/login
+| method | url | desctiption |
+| ------ | ---| ------------ |
+| Post | /api/routers/http/controllers/auth/login | Wartość body: email, password, remember_me |
