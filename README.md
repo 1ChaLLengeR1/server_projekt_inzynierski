@@ -2,6 +2,6 @@
 
 
 ### Rejestracja
-| method | url | desctiption |
+| method | url | body |
 | ------ | ---| ------------ |
-| Post | /api/routers/http/controllers/auth/login | Wartość body: email, password, remember_me |
+| Post | /api/routers/http/controllers/auth/login | email, password, remember_me |
