@@ -29,4 +29,11 @@
 | message        | zwróci Ci informacje na temat error albo success    |
 | server_message | Zwróci Ci tylko ten komunikat, jeśli wyrzuci serwer |
 
+### status code
+| status | description                    |
+|--------|--------------------------------|
+| 201    | utworzone użytkownika          |
+| 403    | Nie poprawna walidacja inputów |
+| 409    | Wyrzuciło serwer               |
+
 
