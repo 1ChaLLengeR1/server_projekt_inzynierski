@@ -2,4 +2,4 @@
 
 
 ### Rejestracja
-## http://projektinzynierski.server.arturscibor.pl/api/routers/http/controllers/auth/login
+#### ściężka_serwera/api/routers/http/controllers/auth/login
