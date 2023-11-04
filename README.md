@@ -7,7 +7,7 @@
 |--------|------------------------------------------|-----------------------------|
 | post   | /api/routers/http/controllers/auth/login | email:string, password:string, remember_me:boolean |
 
-### Walidacja inputów
+### Walidacja inputów z strony serwera
 | validation | description                         | belongs                    |
 |------------|-------------------------------------|----------------------------|
 | required   | nie może być puste                  | username, email, password  |
