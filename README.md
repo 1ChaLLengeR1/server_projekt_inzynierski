@@ -36,7 +36,7 @@
 | 401    | Nie poprawna walidacja inputów |
 | 409    | Wyrzuciło serwer               |
 
-
+<hr />
 ### Logowanie
 ### Przyjmuje obiekt o strukturze:
 | method | url                                      | body                        |
