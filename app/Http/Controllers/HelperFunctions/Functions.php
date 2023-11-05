@@ -13,23 +13,12 @@ class Functions
 
     }
 
-    public function checkIdParam($request, $paramsDataBase)
+    public function checkIdParam($id, $paramsDataBase)
     {
-        $validator = Validator::make($request->all(), [
-            "id" => "required",
-        ], [
-            'required' => 'Pole :attribute jest puste!',
-        ]);
-
-        if ($validator->stopOnFirstFailure()->fails()) {
-            return response()->json([
-                "status" => "error",
-                "message" => $validator->errors()->first()
-            ]);
-        }
 
         try {
-            $paramsDataBase::where('id', $request->input('id'))->first();
+            $paramsDataBase::where('id', $id)->first();
+            return true;
 
         } catch (Throwable $e) {
             return response()->json([
@@ -39,6 +28,5 @@ class Functions
             ]);
         }
 
-        return true;
     }
 }

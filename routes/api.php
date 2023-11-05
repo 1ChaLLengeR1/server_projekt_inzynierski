@@ -22,8 +22,8 @@ try{
         "middleware"=>"auth:api"
     ], function (){
         Route::get('routers/http/controllers/user/get_users', [UserController::class, 'getUsers']);
-        Route::post('routers/http/controllers/auth/refresh_token', [AuthControler::class, 'refreshToken']);
-        Route::post('routers/http/controllers/auth/logout', [AuthControler::class, 'logout']);
+        Route::get('routers/http/controllers/auth/refresh_token', [AuthControler::class, 'refreshToken']);
+        Route::get('routers/http/controllers/auth/logout', [AuthControler::class, 'logout']);
     });
 
 }catch(Throwable $e){
