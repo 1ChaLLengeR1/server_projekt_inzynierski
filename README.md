@@ -30,11 +30,12 @@
 | server_message | Zwróci Ci tylko ten komunikat, jeśli wyrzuci serwer |
 
 ### status code
-| status | description                    |
-|--------|--------------------------------|
-| 201    | utworzone użytkownika          |
-| 401    | Nie poprawna walidacja inputów |
-| 500    | Wyrzuciło serwer               |
+| status | description                      |
+|--------|----------------------------------|
+| 201    | utworzone użytkownika            |
+| 401    | Nie poprawna walidacja inputów   |
+| 406    | Email musi być unikatowy w bazie |
+| 500    | Wyrzuciło serwer                 |
 
 _________________________________________________________________________________________________________________________________________________________
 ### Logowanie
