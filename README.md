@@ -30,11 +30,12 @@
 | server_message | Zwróci Ci tylko ten komunikat, jeśli wyrzuci serwer |
 
 ### status code
-| status | description                    |
-|--------|--------------------------------|
-| 201    | utworzone użytkownika          |
-| 401    | Nie poprawna walidacja inputów |
-| 409    | Wyrzuciło serwer               |
+| status | description                      |
+|--------|----------------------------------|
+| 201    | utworzone użytkownika            |
+| 401    | Nie poprawna walidacja inputów   |
+| 406    | Email musi być unikatowy w bazie |
+| 500    | Wyrzuciło serwer                 |
 
 _________________________________________________________________________________________________________________________________________________________
 ### Logowanie
@@ -63,4 +64,50 @@ ________________________________________________________________________________
 |--------|--------------------------------|
 | 200    | zalogowano          |
 | 401    | Nie poprawna walidacja inputów |
-| 409    | Wyrzuciło serwer               |
+| 500    | Wyrzuciło serwer               |
+_________________________________________________________________________________________________________________________________________________________
+### RefreshToken
+### Przyjmuje obiekt o strukturze:
+| method | url                                      |
+|--------|------------------------------------------|
+| get    | api/routers/http/controllers/auth/refresh_token |
+### Headers
+| name_headers | value            |
+|--------------|------------------|
+| Content-Type | application/json |
+| Bearer       | token            |
+### Serwer zwraca response:
+| response_json  | description                                         |
+|----------------|-----------------------------------------------------|
+| status         | zwróci Ci 'error' albo 'success'                    |
+| message        | zwróci Ci informacje na temat error albo success    |
+| server_message | Zwróci Ci tylko ten komunikat, jeśli wyrzuci serwer |
+### status code
+| status | description                    |
+|--------|--------------------------------|
+| 200    | poprawnie                      |
+| 401    | Nie poprawne ID                |
+| 500    | Wyrzuciło serwer               |
+_________________________________________________________________________________________________________________________________________________________
+### LogoutToken
+### Przyjmuje obiekt o strukturze:
+| method | url                                      |
+|--------|------------------------------------------|
+| get    | api/routers/http/controllers/auth/logout |
+### Headers
+| name_headers | value            |
+|--------------|------------------|
+| Content-Type | application/json |
+| Bearer       | token            |
+### Serwer zwraca response:
+| response_json  | description                                         |
+|----------------|-----------------------------------------------------|
+| status         | zwróci Ci 'error' albo 'success'                    |
+| message        | zwróci Ci informacje na temat error albo success    |
+| server_message | Zwróci Ci tylko ten komunikat, jeśli wyrzuci serwer |
+### status code
+| status | description                    |
+|--------|--------------------------------|
+| 200    | poprawnie                      |
+| 401    | Nie poprawne ID                |
+| 500    | Wyrzuciło serwer               |
