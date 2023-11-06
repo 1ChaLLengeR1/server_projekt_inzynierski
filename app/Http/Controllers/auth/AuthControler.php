@@ -34,10 +34,18 @@ class AuthControler extends Controller
             ]);
 
             if ($validator->stopOnFirstFailure()->fails()) {
+
+                if($validator->errors()->first('email')){
+                    return response()->json([
+                        'status' => 'error',
+                        'message' => $validator->errors()->first()
+                    ], Response::HTTP_NOT_ACCEPTABLE);
+                }
+
                 return response()->json([
                     'status' => 'error',
                     'message' => $validator->errors()->first()
-                ], \Symfony\Component\HttpFoundation\Response::HTTP_CONFLICT);
+                ], Response::HTTP_UNAUTHORIZED);
             }
 
             $user = new User();
@@ -54,13 +62,13 @@ class AuthControler extends Controller
             return response()->json([
                 "status" => "success",
                 "message" => "Poprawnie stworzono użytkownika!"
-            ], \Symfony\Component\HttpFoundation\Response::HTTP_CREATED);
+            ], Response::HTTP_CREATED);
         } catch (Throwable $e) {
             return response()->json([
                 "status" => "error",
                 "message" => "Błąd w skecji tworzenia użytkownika!",
                 "message_server" => $e->getMessage()
-            ], \Symfony\Component\HttpFoundation\Response::HTTP_BAD_REQUEST);
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
 
@@ -124,7 +132,7 @@ class AuthControler extends Controller
                 "status" => "error",
                 "message" => "Błąd w sekcji logowania użytkownika!",
                 "message_server" => $e->getMessage()
-            ], Response::HTTP_CONFLICT);
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
     }
@@ -155,7 +163,7 @@ class AuthControler extends Controller
                 'status' => 'error',
                 'message' => 'Błąd w sekcji refreshToken!',
                 'server_message' => $e->getMessage()
-            ]);
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
     }
@@ -179,7 +187,11 @@ class AuthControler extends Controller
                 "message" => "Wylogowałes się pomyślnie!"
             ], Response::HTTP_OK);
         } catch (Throwable $e) {
-
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Błąd w sekcji wylogowania tokenu!',
+                'server_message' => $e->getMessage()
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
     }

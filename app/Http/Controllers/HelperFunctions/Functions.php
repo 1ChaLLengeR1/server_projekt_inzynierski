@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\HelperFunctions;
 
-use Illuminate\Support\Facades\Validator;
+use Symfony\Component\HttpFoundation\Response;
 use Throwable;
 
 class Functions
@@ -25,7 +25,7 @@ class Functions
                 'status' => 'error',
                 'message' => 'Brak takiego id użytkownika!',
                 'server_message' => $e->getMessage()
-            ]);
+            ], Response::HTTP_UNAUTHORIZED);
         }
 
     }
