@@ -23,11 +23,12 @@
 | unique     | nie może być takiego adresu w bazie | email                      |
 
 ### Serwer zwraca response:
-| response_json  | description                                         |
-|----------------|-----------------------------------------------------|
-| status         | zwróci Ci 'error' albo 'success'                    |
-| message        | zwróci Ci informacje na temat error albo success    |
-| server_message | Zwróci Ci tylko ten komunikat, jeśli wyrzuci serwer |
+| response_json       | description                                         |
+|---------------------|-----------------------------------------------------|
+| status_code         | zwróci kod statusu                                  |
+| status              | zwróci Ci 'error' albo 'success'                    |
+| message             | zwróci Ci informacje na temat error albo success    |
+| server_message      | Zwróci Ci tylko ten komunikat, jeśli wyrzuci serwer |
 
 ### status code
 | status | description                      |
@@ -56,6 +57,7 @@ ________________________________________________________________________________
 ### Serwer zwraca response:
 | response_json  | description                                         |
 |----------------|-----------------------------------------------------|
+| status_code         | zwróci kod statusu                                  |
 | status         | zwróci Ci 'error' albo 'success'                    |
 | message        | zwróci Ci informacje na temat error albo success    |
 | server_message | Zwróci Ci tylko ten komunikat, jeśli wyrzuci serwer |
@@ -79,6 +81,7 @@ ________________________________________________________________________________
 ### Serwer zwraca response:
 | response_json  | description                                         |
 |----------------|-----------------------------------------------------|
+| status_code         | zwróci kod statusu                                  |
 | status         | zwróci Ci 'error' albo 'success'                    |
 | message        | zwróci Ci informacje na temat error albo success    |
 | server_message | Zwróci Ci tylko ten komunikat, jeśli wyrzuci serwer |
@@ -102,6 +105,7 @@ ________________________________________________________________________________
 ### Serwer zwraca response:
 | response_json  | description                                         |
 |----------------|-----------------------------------------------------|
+| status_code         | zwróci kod statusu                                  |
 | status         | zwróci Ci 'error' albo 'success'                    |
 | message        | zwróci Ci informacje na temat error albo success    |
 | server_message | Zwróci Ci tylko ten komunikat, jeśli wyrzuci serwer |
