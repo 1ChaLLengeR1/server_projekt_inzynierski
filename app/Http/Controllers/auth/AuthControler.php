@@ -37,12 +37,14 @@ class AuthControler extends Controller
 
                 if($validator->errors()->first('email')){
                     return response()->json([
+                        "status_code"=>406,
                         'status' => 'error',
                         'message' => $validator->errors()->first()
                     ], Response::HTTP_NOT_ACCEPTABLE);
                 }
 
                 return response()->json([
+                    "status_code"=>401,
                     'status' => 'error',
                     'message' => $validator->errors()->first()
                 ], Response::HTTP_UNAUTHORIZED);
@@ -59,12 +61,23 @@ class AuthControler extends Controller
             $user->type_user = "user";
             $user->save();
 
+            $token = JWTAuth::attempt([
+                "email" => $request->input("email"),
+                "password" => $request->input("password")
+            ]);
+
             return response()->json([
+                "status_code"=>201,
                 "status" => "success",
-                "message" => "Poprawnie stworzono użytkownika!"
+                "message" => "Poprawnie stworzono użytkownika!",
+                "token" => [
+                    "access_token" => $token,
+                    "token_expire" => Carbon::now()->timezone('Europe/Warsaw')->addMinute(env('JWT_TTL'))
+                ]
             ], Response::HTTP_CREATED);
         } catch (Throwable $e) {
             return response()->json([
+                "status_code"=>500,
                 "status" => "error",
                 "message" => "Błąd w skecji tworzenia użytkownika!",
                 "message_server" => $e->getMessage()
@@ -89,6 +102,7 @@ class AuthControler extends Controller
 
             if ($validator->stopOnFirstFailure()->fails()) {
                 return response()->json([
+                    "status_code"=>401,
                     "status" => "error",
                     "message" => $validator->errors()->first()
                 ], Response::HTTP_UNAUTHORIZED);
@@ -96,6 +110,7 @@ class AuthControler extends Controller
             $hashPassword = User::where('email', $request->input('email'))->value('password');
             if (!Hash::check($request->input('password'), $hashPassword)) {
                 return response()->json([
+                    "status_code"=>401,
                     'status' => 'error',
                     'message' => 'Nieprawidłowe dane logowania!'
                 ], Response::HTTP_UNAUTHORIZED);
@@ -112,6 +127,7 @@ class AuthControler extends Controller
             # wiktor szef
 
             return response()->json([
+                "status_code"=>200,
                 "status" => "success",
                 "message" => "Poprawnie zostałeś zalogowany!",
                 "user" => [
@@ -130,6 +146,7 @@ class AuthControler extends Controller
 
         } catch (Throwable $e) {
             return response()->json([
+                "status_code"=>500,
                 "status" => "error",
                 "message" => "Błąd w sekcji logowania użytkownika!",
                 "message_server" => $e->getMessage()
@@ -155,12 +172,14 @@ class AuthControler extends Controller
 
             $newToken = auth()->refresh();
             return response()->json([
+                "status_code"=>200,
                 'status' => 'success',
                 'message' => 'Poprawnie token został przeładowany!',
                 "access_token" => $newToken,
             ], Response::HTTP_OK);
         } catch (Throwable $e) {
             return response()->json([
+                "status_code"=>500,
                 'status' => 'error',
                 'message' => 'Błąd w sekcji refreshToken!',
                 'server_message' => $e->getMessage()
@@ -184,11 +203,13 @@ class AuthControler extends Controller
 
             auth()->logout();
             return response()->json([
+                "status_code"=>200,
                 'status' => 'success',
                 "message" => "Wylogowałes się pomyślnie!"
             ], Response::HTTP_OK);
         } catch (Throwable $e) {
             return response()->json([
+                "status_code"=>500,
                 'status' => 'error',
                 'message' => 'Błąd w sekcji wylogowania tokenu!',
                 'server_message' => $e->getMessage()
