@@ -35,16 +35,16 @@ class AuthControler extends Controller
 
             if ($validator->stopOnFirstFailure()->fails()) {
 
-                if($validator->errors()->first('email')){
+                if ($validator->errors()->first('email')) {
                     return response()->json([
-                        "status_code"=>406,
+                        "status_code" => 406,
                         'status' => 'error',
                         'message' => $validator->errors()->first()
                     ], Response::HTTP_NOT_ACCEPTABLE);
                 }
 
                 return response()->json([
-                    "status_code"=>401,
+                    "status_code" => 401,
                     'status' => 'error',
                     'message' => $validator->errors()->first()
                 ], Response::HTTP_UNAUTHORIZED);
@@ -66,10 +66,18 @@ class AuthControler extends Controller
                 "password" => $request->input("password")
             ]);
 
+            $user_mode = User::where('email', $request->input('email'))->first();
+
             return response()->json([
-                "status_code"=>201,
+                "status_code" => 201,
                 "status" => "success",
                 "message" => "Poprawnie stworzono użytkownika!",
+                "user" => [
+                    "id" => $user_mode['id'],
+                    "username" => $user_mode['username'],
+                    "email" => $user_mode['email'],
+                    "type_user" => $user_mode['type_user'],
+                ],
                 "token" => [
                     "access_token" => $token,
                     "token_expire" => Carbon::now()->timezone('Europe/Warsaw')->addMinute(env('JWT_TTL'))
@@ -77,14 +85,12 @@ class AuthControler extends Controller
             ], Response::HTTP_CREATED);
         } catch (Throwable $e) {
             return response()->json([
-                "status_code"=>500,
+                "status_code" => 500,
                 "status" => "error",
                 "message" => "Błąd w skecji tworzenia użytkownika!",
                 "message_server" => $e->getMessage()
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
-
-
     }
 
     public function login(Request $request)
@@ -102,7 +108,7 @@ class AuthControler extends Controller
 
             if ($validator->stopOnFirstFailure()->fails()) {
                 return response()->json([
-                    "status_code"=>401,
+                    "status_code" => 401,
                     "status" => "error",
                     "message" => $validator->errors()->first()
                 ], Response::HTTP_UNAUTHORIZED);
@@ -110,7 +116,7 @@ class AuthControler extends Controller
             $hashPassword = User::where('email', $request->input('email'))->value('password');
             if (!Hash::check($request->input('password'), $hashPassword)) {
                 return response()->json([
-                    "status_code"=>401,
+                    "status_code" => 401,
                     'status' => 'error',
                     'message' => 'Nieprawidłowe dane logowania!'
                 ], Response::HTTP_UNAUTHORIZED);
@@ -127,7 +133,7 @@ class AuthControler extends Controller
             # wiktor szef
 
             return response()->json([
-                "status_code"=>200,
+                "status_code" => 200,
                 "status" => "success",
                 "message" => "Poprawnie zostałeś zalogowany!",
                 "user" => [
@@ -142,17 +148,14 @@ class AuthControler extends Controller
                     "token_expire" => Carbon::now()->timezone('Europe/Warsaw')->addMinute(env('JWT_TTL'))
                 ]
             ], Response::HTTP_OK);
-
-
         } catch (Throwable $e) {
             return response()->json([
-                "status_code"=>500,
+                "status_code" => 500,
                 "status" => "error",
                 "message" => "Błąd w sekcji logowania użytkownika!",
                 "message_server" => $e->getMessage()
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
-
     }
 
     public function refreshToken()
@@ -172,20 +175,20 @@ class AuthControler extends Controller
 
             $newToken = auth()->refresh();
             return response()->json([
-                "status_code"=>200,
+                "status_code" => 200,
                 'status' => 'success',
                 'message' => 'Poprawnie token został przeładowany!',
                 "access_token" => $newToken,
+                "token_expire" => Carbon::now()->timezone('Europe/Warsaw')->addMinute(env('JWT_TTL'))
             ], Response::HTTP_OK);
         } catch (Throwable $e) {
             return response()->json([
-                "status_code"=>500,
+                "status_code" => 500,
                 'status' => 'error',
                 'message' => 'Błąd w sekcji refreshToken!',
                 'server_message' => $e->getMessage()
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
-
     }
 
     public function logout()
@@ -203,18 +206,17 @@ class AuthControler extends Controller
 
             auth()->logout();
             return response()->json([
-                "status_code"=>200,
+                "status_code" => 200,
                 'status' => 'success',
                 "message" => "Wylogowałes się pomyślnie!"
             ], Response::HTTP_OK);
         } catch (Throwable $e) {
             return response()->json([
-                "status_code"=>500,
+                "status_code" => 500,
                 'status' => 'error',
                 'message' => 'Błąd w sekcji wylogowania tokenu!',
                 'server_message' => $e->getMessage()
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
-
     }
 }
