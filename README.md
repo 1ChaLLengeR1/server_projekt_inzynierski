@@ -10,7 +10,7 @@
 ### Headers
 | name_headers | value            |
 |--------------|------------------|
-| Content-Type | application/json |
+| Accept       | application/json |
 
 ### Walidacja inputów z strony serwera
 | validation | description                         | belongs                    |
@@ -47,7 +47,7 @@ ________________________________________________________________________________
 ### Headers
 | name_headers | value            |
 |--------------|------------------|
-| Content-Type | application/json |
+| Accept       | application/json |
 ### Walidacja inputów z strony serwera
 | validation | description                         | belongs                    |
 |------------|-------------------------------------|----------------------------|
@@ -76,8 +76,8 @@ ________________________________________________________________________________
 ### Headers
 | name_headers | value            |
 |--------------|------------------|
-| Content-Type | application/json |
-| Bearer       | token            |
+|  Accept      | application/json |
+| authorization  | Bearer 'tu token'|
 ### Serwer zwraca response:
 | response_json  | description                                         |
 |----------------|-----------------------------------------------------|
@@ -100,8 +100,8 @@ ________________________________________________________________________________
 ### Headers
 | name_headers | value            |
 |--------------|------------------|
-| Content-Type | application/json |
-| Bearer       | token            |
+|  Accept      | application/json |
+| authorization  | Bearer 'tu token'|
 ### Serwer zwraca response:
 | response_json  | description                                         |
 |----------------|-----------------------------------------------------|
