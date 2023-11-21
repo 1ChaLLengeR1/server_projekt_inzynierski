@@ -13,12 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('users_table', function (Blueprint $table) {
-            $table->uuid('id')->primary();
-            $table->string('username');
-            $table->string('email')->unique();
-            $table->string('password');
-            $table->string('type_user');
+        Schema::create("quiz_table", function (Blueprint $table) {
+            $table->uuid('id')->primaty()->nullable();
+            $table->string('name');
+            $table->string('description');
+            $table->string('image_path');
+            $table->string('link_image');
         });
     }
 
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users_table');
+        Schema::dropIfExists('quiz_table');
     }
 };

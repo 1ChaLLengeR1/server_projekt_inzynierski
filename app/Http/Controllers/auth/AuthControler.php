@@ -172,13 +172,13 @@ class AuthControler extends Controller
                 return $checkFunctions->checkIdParam($apy['sub'], $paramsDataBase);
             }
 
-
             $newToken = auth()->refresh();
             return response()->json([
                 "status_code" => 200,
                 'status' => 'success',
                 'message' => 'Poprawnie token został przeładowany!',
                 "access_token" => $newToken,
+                "id" => $apy['sub'],
                 "token_expire" => Carbon::now()->timezone('Europe/Warsaw')->addMinute(env('JWT_TTL'))
             ], Response::HTTP_OK);
         } catch (Throwable $e) {
