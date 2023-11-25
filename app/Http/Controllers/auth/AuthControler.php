@@ -130,8 +130,6 @@ class AuthControler extends Controller
 
             $user = User::where('email', $request->input('email'))->first();
 
-            # wiktor szef
-
             return response()->json([
                 "status_code" => 200,
                 "status" => "success",

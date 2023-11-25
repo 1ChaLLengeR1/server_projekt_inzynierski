@@ -10,7 +10,6 @@ class Functions
 
     public function __constructor()
     {
-
     }
 
     public function checkIdParam($id, $paramsDataBase)
@@ -19,7 +18,6 @@ class Functions
         try {
             $paramsDataBase::where('id', $id)->first();
             return true;
-
         } catch (Throwable $e) {
             return response()->json([
                 'status' => 'error',
@@ -27,6 +25,13 @@ class Functions
                 'server_message' => $e->getMessage()
             ], Response::HTTP_UNAUTHORIZED);
         }
+    }
 
+    public function formatBytes($size, $precision = 2)
+    {
+        $base = log($size, 1024);
+        $suffixes = array('', 'K', 'M', 'G', 'T');
+
+        return round(pow(1024, $base - floor($base)), $precision) . ' ' . $suffixes[floor($base)];
     }
 }
