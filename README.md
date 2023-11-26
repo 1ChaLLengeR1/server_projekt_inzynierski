@@ -206,3 +206,34 @@ ________________________________________________________________________________
 | 400    | zwróci Ci informacje, któa walidacja jest nie poprawna                                                                     |
 | 401    | zwróci Ci informacje, jeśli napotka błąd podczas usuwania bierzącego zdjęcia z serwera i podmiany, które wysyłasz          |
 | 500    | Wyrzuciło serwer                                                                                                           |
+_________________________________________________________________________________________________________________________________________________________
+### Delete_quiz
+### Przyjmuje obiekt o strukturze:
+| method | url                                            | Body                                     |
+|--------|------------------------------------------------|------------------------------------------|
+| post   | /api/routers/http/controllers/quiz/delete_quiz | id                                       |
+### Headers
+| name_headers   | value            |
+|----------------|------------------|
+|  Accept        | application/json |
+| authorization  | Bearer 'tu token'|
+### Walidacja inputów z strony serwera
+| validation | description                                                                     | belongs                                   |
+|------------|---------------------------------------------------------------------------------|-------------------------------------------|
+| required   | nie może być puste                                                              | id                                        |
+| exists     | id musi zgadząć się w bazie                                                     | id                                        |
+| uuid       | id musi być poprawnie zapisane (nie zmieniaj id, które jest pobrane z serwera!) | id                                        |
+### Serwer zwraca response:
+| response_json  | description                                         |
+|----------------|-----------------------------------------------------|
+| status_code    | zwróci kod statusu                                  |
+| status         | zwróci Ci 'error' albo 'success'                    |
+| message        | zwróci Ci informacje na temat error albo success    |
+| server_message | Zwróci Ci tylko ten komunikat, jeśli wyrzuci serwer |
+### status code
+| status | description                                                                                                                |
+|--------|----------------------------------------------------------------------------------------------------------------------------|
+| 200    | poprawnie usunięto                                                                                                         |
+| 400    | zwróci Ci informacje, któa walidacja jest nie poprawna                                                                     |
+| 401    | zwróci Ci informacje, jeśli napotka błąd podczas usuwania bierzącego zdjęcia z serwera                                     |
+| 500    | Wyrzuciło serwer                                                                                                           |
