@@ -169,3 +169,40 @@ ________________________________________________________________________________
 | 201    | utworzono quiz                                                   |
 | 400    | zwróci Ci informacje, któa walidacja jest nie poprawna           |
 | 500    | Wyrzuciło serwer                                                 |
+_________________________________________________________________________________________________________________________________________________________
+### Edit_quiz
+### Przyjmuje obiekt o strukturze:
+| method | url                                          |
+|--------|----------------------------------------------|
+| post   | /api/routers/http/controllers/quiz/edit_quiz |
+### Headers
+| name_headers   | value            |
+|----------------|------------------|
+|  Accept        | application/json |
+| authorization  | Bearer 'tu token'|
+### Walidacja inputów z strony serwera
+| validation | description                                                                     | belongs                                   |
+|------------|---------------------------------------------------------------------------------|-------------------------------------------|
+| required   | nie może być puste                                                              | name, description, id                     |
+| exists     | id musi zgadząć się w bazie                                                     | id                                        |
+| uuid       | id musi być poprawnie zapisane (nie zmieniaj id, które jest pobrane z serwera!) | id                                        |
+| min:10     | minimalna długość                                                               | name                                      |
+| min:20     | minimalna długość                                                               | description                               |
+| max:40     | maksymalna długość                                                              | name                                      |
+| max:400    | maksymalna długość                                                              | description                               |
+| mimes      | rozszerzenie jpeg, jpg, pmg                                                     | image                                     |
+| size       | waga zdjęcia od 0 do 5M                                                         | image                                     |
+### Serwer zwraca response:
+| response_json  | description                                         |
+|----------------|-----------------------------------------------------|
+| status_code    | zwróci kod statusu                                  |
+| status         | zwróci Ci 'error' albo 'success'                    |
+| message        | zwróci Ci informacje na temat error albo success    |
+| server_message | Zwróci Ci tylko ten komunikat, jeśli wyrzuci serwer |
+### status code
+| status | description                                                                                                                |
+|--------|----------------------------------------------------------------------------------------------------------------------------|
+| 200    | poprawnie z modyfikowano                                                                                                   |
+| 400    | zwróci Ci informacje, któa walidacja jest nie poprawna                                                                     |
+| 401    | zwróci Ci informacje, jeśli napotka błąd podczas usuwania bierzącego zdjęcia z serwera i podmiany, które wysyłasz          |
+| 500    | Wyrzuciło serwer                                                                                                           |
