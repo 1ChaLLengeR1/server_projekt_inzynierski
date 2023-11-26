@@ -49,15 +49,15 @@ ________________________________________________________________________________
 |--------------|------------------|
 | Accept       | application/json |
 ### Walidacja inputów z strony serwera
-| validation | description                         | belongs                    |
-|------------|-------------------------------------|----------------------------|
+| validation | description                         | belongs                       |
+|------------|-------------------------------------|-------------------------------|
 | required   | nie może być puste                  | email, password, remember_me  |
-| email      | musi zgadzac się regex              | email                      |
-| exists     | musi znajdować się w bazie          | email                      |
+| email      | musi zgadzac się regex              | email                         |
+| exists     | musi znajdować się w bazie          | email                         |
 ### Serwer zwraca response:
 | response_json  | description                                         |
 |----------------|-----------------------------------------------------|
-| status_code         | zwróci kod statusu                                  |
+| status_code    | zwróci kod statusu                                  |
 | status         | zwróci Ci 'error' albo 'success'                    |
 | message        | zwróci Ci informacje na temat error albo success    |
 | server_message | Zwróci Ci tylko ten komunikat, jeśli wyrzuci serwer |
@@ -105,7 +105,7 @@ ________________________________________________________________________________
 ### Serwer zwraca response:
 | response_json  | description                                         |
 |----------------|-----------------------------------------------------|
-| status_code         | zwróci kod statusu                                  |
+| status_code    | zwróci kod statusu                                  |
 | status         | zwróci Ci 'error' albo 'success'                    |
 | message        | zwróci Ci informacje na temat error albo success    |
 | server_message | Zwróci Ci tylko ten komunikat, jeśli wyrzuci serwer |
@@ -115,3 +115,23 @@ ________________________________________________________________________________
 | 200    | poprawnie                      |
 | 401    | Nie poprawne ID                |
 | 500    | Wyrzuciło serwer               |
+_________________________________________________________________________________________________________________________________________________________
+### Get_Quiz
+### Przyjmuje obiekt o strukturze:
+| method | url                                         |
+|--------|---------------------------------------------|
+| get    | /api/routers/http/controllers/quiz/get_quiz |
+### Headers
+| name_headers | value            |
+|--------------|------------------|
+|  Accept      | application/json |
+### Serwer zwraca response:
+| response_json  | description                               |
+|----------------|-------------------------------------------|
+| array          | Tablica quizów                            |
+### status code
+| status | description                          |
+|--------|--------------------------------------|
+| 200    | tablica quizów                       |
+| 500    | Wyrzuciło serwer                     |
+
