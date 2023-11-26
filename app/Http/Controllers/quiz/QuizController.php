@@ -18,7 +18,7 @@ class QuizController extends Controller
     public function GetQuiz(Quiz $quiz)
     {
         try {
-            return $quiz::all();
+            return response()->json($quiz::all(), 200);
         } catch (Throwable $e) {
             return response()->json([
                 "status_code" => 500,
@@ -53,7 +53,7 @@ class QuizController extends Controller
 
             $validator_two = Validator::make($request->all(), [
                 "name" => "required|min:10|max:40",
-                "description" => "required|min:20|max:200",
+                "description" => "required|min:20|max:400",
                 "image" => "mimes:jpeg,png,jpg|between:0,5120"
             ], [
                 "required" => "Pole :attribute nie może być puste!",
@@ -115,7 +115,7 @@ class QuizController extends Controller
             $array_with_image = [
                 "id" => "required|uuid|exists:quiz_table,id",
                 "name" => "required|min:10|max:40",
-                "description" => "required|min:20|max:200",
+                "description" => "required|min:20|max:400",
             ];
             $array_message = [
                 "required" => "Pole :attribute nie może być puste!",
