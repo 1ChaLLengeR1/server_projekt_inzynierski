@@ -75,7 +75,9 @@ class QuizController extends Controller
             $filePath = $file->storeAs('/public/files/quiz_files/', $fileName);
             $filePathServer = asset('/storage/files/quiz_files/' . $fileName);
 
-            $quiz->id = Uuid::uuid4()->toString();
+            $id_quiz = Uuid::uuid4()->toString();
+
+            $quiz->id = $id_quiz;
             $quiz->name = $name;
             $quiz->description = $description;
             $quiz->image_path = $filePath;
@@ -84,6 +86,7 @@ class QuizController extends Controller
             $quiz->save();
 
             return response()->json([
+                "id_quiz" => $id_quiz,
                 "status_code" => 201,
                 "status" => "success",
                 "message" => "Poprawnie stworzono quiz!",
@@ -109,36 +112,39 @@ class QuizController extends Controller
             $file = $request->file('image');
             $formatBytes = new Functions();
 
-            error_log($file);
-
-            $validator_one = Validator::make($request->all(), [
-                "image" => "required"
-            ], [
-                "required" => "Pole :attribute nie może być puste!",
-            ]);
-
-            if ($validator_one->stopOnFirstFailure()->fails()) {
-                return response()->json([
-                    "status_code" => 400,
-                    'status' => 'error',
-                    'message' => $validator_one->errors()->first()
-                ], Response::HTTP_BAD_REQUEST);
-            }
-
-            $validator_two = Validator::make($request->all(), [
+            $array_with_image = [
                 "id" => "required|uuid|exists:quiz_table,id",
                 "name" => "required|min:10|max:40",
                 "description" => "required|min:20|max:200",
-                "image" => "mimes:jpeg,png,jpg|between:0,5120"
-            ], [
+            ];
+            $array_message = [
                 "required" => "Pole :attribute nie może być puste!",
                 "uuid" => "id musi być poprawnie zapisane!",
                 'exists' => 'Brak takie id quizu!',
                 'min' => 'Pole :attribute musi mieć minimum :min znaków!',
                 'max' => 'Pole :attribute może mieć maksylamnie :max znaków!',
-                'mimes' => 'Wymagane rozszerzenia to jpg, jpeg i png, a jest załadowne: ' . $file->getClientOriginalExtension(),
-                'between' => 'Zdjęcie waży: ' . $formatBytes->formatBytes($file->getSize()) . ', a musi ważyć od 0 do 5M!'
-            ]);
+            ];
+
+            if ($file) {
+                $array_with_image = [
+                    "id" => "required|uuid|exists:quiz_table,id",
+                    "name" => "required|min:10|max:40",
+                    "description" => "required|min:20|max:200",
+                    "image" => "mimes:jpeg,png,jpg|between:0,5120"
+                ];
+
+                $array_message = [
+                    "required" => "Pole :attribute nie może być puste!",
+                    "uuid" => "id musi być poprawnie zapisane!",
+                    'exists' => 'Brak takie id quizu!',
+                    'min' => 'Pole :attribute musi mieć minimum :min znaków!',
+                    'max' => 'Pole :attribute może mieć maksylamnie :max znaków!',
+                    'mimes' => 'Wymagane rozszerzenia to jpg, jpeg i png, a jest załadowne: ' . $file->getClientOriginalExtension(),
+                    'between' => 'Zdjęcie waży: ' . $formatBytes->formatBytes($file->getSize()) . ', a musi ważyć od 0 do 5M!'
+                ];
+            }
+
+            $validator_two = Validator::make($request->all(), $array_with_image, $array_message);
 
             if ($validator_two->stopOnFirstFailure()->fails()) {
                 return response()->json([
@@ -150,28 +156,29 @@ class QuizController extends Controller
 
             $quiz = $quiz::where('id', $id)->first();
 
-            if (Storage::exists($quiz->image_path)) {
-                Storage::delete($quiz->image_path);
-            } else {
-                return response()->json([
-                    "status_code" => 401,
-                    "status" => "error",
-                    "message" => "Błąd podczas usuwania zdjęcia przed edycją. Sprawdz server, bądź powiadom o tym administratora!"
-                ], 401);
+            if ($file) {
+                if (Storage::exists($quiz->image_path)) {
+                    Storage::delete($quiz->image_path);
+                } else {
+                    return response()->json([
+                        "status_code" => 401,
+                        "status" => "error",
+                        "message" => "Błąd podczas usuwania zdjęcia przed edycją. Sprawdz server, bądź powiadom o tym administratora!"
+                    ], 401);
+                }
+
+                $fileName = time() . '_' . $file->getClientOriginalName();
+                $filePath = $file->storeAs('/public/files/quiz_files/', $fileName);
+                $filePathServer = asset('/storage/files/quiz_files/' . $fileName);
+
+                $quiz->image_path = $filePath;
+                $quiz->link_image = $filePathServer;
             }
-
-
-            $fileName = time() . '_' . $file->getClientOriginalName();
-            $filePath = $file->storeAs('/public/files/quiz_files/', $fileName);
-            $filePathServer = asset('/storage/files/quiz_files/' . $fileName);
 
             $quiz->name = $name;
             $quiz->description = $description;
-            $quiz->image_path = $filePath;
-            $quiz->link_image = $filePathServer;
 
             $quiz->save();
-
 
             return response()->json([
                 "status_code" => "200",
