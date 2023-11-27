@@ -116,6 +116,8 @@ ________________________________________________________________________________
 | 401    | Nie poprawne ID                |
 | 500    | Wyrzuciło serwer               |
 _________________________________________________________________________________________________________________________________________________________
+
+# Ważne - Serwer przyjmuje maksylamnie plik o wartości 10M. Jeśli wrzucisz coś więcej to Ci wypluje błąd ogólny 400 z informacją, że jest błąd w trakcie uploadu zdjęcia!
 ### Get_Quiz
 ### Przyjmuje obiekt o strukturze:
 | method | url                                         |
