@@ -30,10 +30,13 @@ try {
     });
 
     //Quiuz request
-    Route::get('routers/http/controllers/quiz/get_quiz', [QuizController::class, 'GetQuiz']);
     Route::group(["middleware" => "auth:api"], function () {
+        Route::get('routers/http/controllers/quiz/get_quiz', [QuizController::class, 'GetQuiz']);
+
         Route::post('routers/http/controllers/quiz/add_quiz', [QuizController::class, 'AddQuiz']);
+
         Route::post('routers/http/controllers/quiz/edit_quiz', [QuizController::class, 'EditQuiz']);
+
         Route::delete('routers/http/controllers/quiz/delete_quiz', [QuizController::class, 'DeleteQuiz']);
     });
 } catch (Throwable $e) {

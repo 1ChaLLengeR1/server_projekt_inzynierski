@@ -14,7 +14,6 @@ class Functions
 
     public function checkIdParam($id, $paramsDataBase)
     {
-
         try {
             $paramsDataBase::where('id', $id)->first();
             return true;
@@ -33,5 +32,14 @@ class Functions
         $suffixes = array('', 'K', 'M', 'G', 'T');
 
         return round(pow(1024, $base - floor($base)), $precision) . ' ' . $suffixes[floor($base)];
+    }
+
+    public function ComparisonId($token_id, $user_id)
+    {
+        if ($token_id === $user_id) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

@@ -1,7 +1,5 @@
 <?php
 
-use App\Http\Controllers\DashBoardController;
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -12,6 +10,3 @@ use App\Http\Controllers\DashBoardController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-
-

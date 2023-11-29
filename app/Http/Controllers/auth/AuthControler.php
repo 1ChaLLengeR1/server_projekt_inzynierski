@@ -166,6 +166,7 @@ class AuthControler extends Controller
 
             $checkFunctions = new Functions;
             $paramsDataBase = new User;
+
             if ($checkFunctions->checkIdParam($apy['sub'], $paramsDataBase) !== true) {
                 return $checkFunctions->checkIdParam($apy['sub'], $paramsDataBase);
             }

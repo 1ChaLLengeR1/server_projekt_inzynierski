@@ -11,14 +11,44 @@ use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\HelperFunctions\Functions;
 use Storage;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class QuizController extends Controller
 {
 
-    public function GetQuiz(Quiz $quiz)
+    public function GetQuiz(Request $request, Quiz $quiz)
     {
         try {
-            return response()->json($quiz::all(), 200);
+            $user_id = $request->input("user_id");
+            $comparison = new Functions();
+
+            $validator = Validator::make($request->all(), [
+                "user_id" => "required",
+            ], [
+                "required" => "Pole :attribute nie może być puste!",
+            ]);
+            if ($validator->stopOnFirstFailure()->fails()) {
+                return response()->json([
+                    "status_code" => 400,
+                    'status' => 'error',
+                    'message' => $validator->errors()->first()
+                ], Response::HTTP_BAD_REQUEST);
+            }
+
+            $token = JWTAuth::getToken();
+            $apy = JWTAuth::getPayload($token)->toArray();
+
+            if (!$comparison->ComparisonId($apy['sub'], $user_id)) {
+                return response()->json([
+                    "status_code" => 401,
+                    'status' => 'error',
+                    'message' => "Nie poprawne parametry Id!"
+                ], Response::HTTP_BAD_REQUEST);
+            }
+
+            $quiz = Quiz::where('user_id', $user_id)->get();
+
+            return response()->json($quiz, 200);
         } catch (Throwable $e) {
             return response()->json([
                 "status_code" => 500,
@@ -33,55 +63,81 @@ class QuizController extends Controller
     {
         try {
             $name = $request->input('name');
+            $user_id = $request->input('user_id');
             $description = $request->input('description');
             $file = $request->file('image');
             $formatBytes = new Functions();
+            $comparison = new Functions();
 
-            $validator_one = Validator::make($request->all(), [
-                "image" => "required"
-            ], [
-                "required" => "Pole :attribute nie może być puste!",
-            ]);
-
-            if ($validator_one->stopOnFirstFailure()->fails()) {
-                return response()->json([
-                    "status_code" => 400,
-                    'status' => 'error',
-                    'message' => $validator_one->errors()->first()
-                ], Response::HTTP_BAD_REQUEST);
-            }
-
-            $validator_two = Validator::make($request->all(), [
+            $array_with_image = [
+                "user_id" => "required",
                 "name" => "required|min:10|max:40",
-                "description" => "required|min:20|max:400",
-                "image" => "mimes:jpeg,png,jpg|between:0,5120"
-            ], [
+                "description" => "required|min:20|max:400"
+            ];
+
+            $array_message = [
                 "required" => "Pole :attribute nie może być puste!",
                 'min' => 'Pole :attribute musi mieć minimum :min znaków!',
-                'max' => 'Pole :attribute może mieć maksylamnie :max znaków!',
-                'mimes' => 'Wymagane rozszerzenia to jpg, jpeg i png, a jest załadowne: ' . $file->getClientOriginalExtension(),
-                'between' => 'Zdjęcie waży: ' . $formatBytes->formatBytes($file->getSize()) . ', a musi ważyć od 0 do 5M!'
-            ]);
+                'max' => 'Pole :attribute może mieć maksylamnie :max znaków!'
+            ];
 
-            if ($validator_two->stopOnFirstFailure()->fails()) {
+            if ($file) {
+                $array_with_image = [
+                    "user_id" => "required",
+                    "name" => "required|min:10|max:40",
+                    "description" => "required|min:20|max:400",
+                    "image" => "mimes:jpeg,png,jpg|between:0,5120"
+                ];
+
+                $array_message = [
+                    "required" => "Pole :attribute nie może być puste!",
+                    'min' => 'Pole :attribute musi mieć minimum :min znaków!',
+                    'max' => 'Pole :attribute może mieć maksylamnie :max znaków!',
+                    'mimes' => 'Wymagane rozszerzenia to jpg, jpeg i png, a jest załadowne: ' . $file->getClientOriginalExtension(),
+                    'between' => 'Zdjęcie waży: ' . $formatBytes->formatBytes($file->getSize()) . ', a musi ważyć od 0 do 5M!'
+                ];
+            }
+
+            $validator = Validator::make($request->all(), $array_with_image, $array_message);
+
+            if ($validator->stopOnFirstFailure()->fails()) {
                 return response()->json([
                     "status_code" => 400,
                     'status' => 'error',
-                    'message' => $validator_two->errors()->first()
+                    'message' => $validator->errors()->first()
                 ], Response::HTTP_BAD_REQUEST);
             }
 
-            $fileName = time() . '_' . $file->getClientOriginalName();
-            $filePath = $file->storeAs('/public/files/quiz_files/', $fileName);
-            $filePathServer = asset('/storage/files/quiz_files/' . $fileName);
+            $token = JWTAuth::getToken();
+            $apy = JWTAuth::getPayload($token)->toArray();
+
+            if (!$comparison->ComparisonId($apy['sub'], $user_id)) {
+                return response()->json([
+                    "status_code" => 401,
+                    'status' => 'error',
+                    'message' => "Nie poprawne parametry Id!"
+                ], Response::HTTP_BAD_REQUEST);
+            }
+
+
+            if ($file) {
+                $fileName = time() . '_' . $file->getClientOriginalName();
+                $filePath = $file->storeAs('/public/files/quiz_files/', $fileName);
+                $filePathServer = asset('/storage/files/quiz_files/' . $fileName);
+                $quiz->image_path = $filePath;
+                $quiz->link_image = $filePathServer;
+            } else {
+                $quiz->image_path = '';
+                $quiz->link_image = '';
+            }
+
 
             $id_quiz = Uuid::uuid4()->toString();
-
             $quiz->id = $id_quiz;
+            $quiz->user_id = $user_id;
             $quiz->name = $name;
             $quiz->description = $description;
-            $quiz->image_path = $filePath;
-            $quiz->link_image = $filePathServer;
+
 
             $quiz->save();
 
@@ -107,13 +163,16 @@ class QuizController extends Controller
         try {
 
             $id = $request->input("id");
+            $user_id = $request->input("user_id");
             $name = $request->input('name');
             $description = $request->input('description');
             $file = $request->file('image');
             $formatBytes = new Functions();
+            $comparison = new Functions();
 
             $array_with_image = [
                 "id" => "required|uuid|exists:quiz_table,id",
+                "user_id" => "required",
                 "name" => "required|min:10|max:40",
                 "description" => "required|min:20|max:400",
             ];
@@ -128,6 +187,7 @@ class QuizController extends Controller
             if ($file) {
                 $array_with_image = [
                     "id" => "required|uuid|exists:quiz_table,id",
+                    "user_id" => "required",
                     "name" => "required|min:10|max:40",
                     "description" => "required|min:20|max:200",
                     "image" => "mimes:jpeg,png,jpg|between:0,5120"
@@ -154,7 +214,19 @@ class QuizController extends Controller
                 ], Response::HTTP_BAD_REQUEST);
             }
 
+            $token = JWTAuth::getToken();
+            $apy = JWTAuth::getPayload($token)->toArray();
+
+            if (!$comparison->ComparisonId($apy['sub'], $user_id)) {
+                return response()->json([
+                    "status_code" => 401,
+                    'status' => 'error',
+                    'message' => "Nie poprawne parametry Id!"
+                ], Response::HTTP_BAD_REQUEST);
+            }
+
             $quiz = $quiz::where('id', $id)->first();
+
 
             if ($file) {
                 if (Storage::exists($quiz->image_path)) {
@@ -199,9 +271,12 @@ class QuizController extends Controller
     {
         try {
             $id_quiz = $request->input('id');
+            $user_id = $request->input('user_id');
+            $comparison = new Functions();
 
             $validator = Validator::make($request->all(), [
-                "id" => "required|uuid|exists:quiz_table,id"
+                "id" => "required|uuid|exists:quiz_table,id",
+                "user_id" => "required"
             ], [
                 "required" => "Pole :attribute nie może być puste!",
                 "uuid" => "id musi być poprawnie zapisane!",
@@ -213,6 +288,17 @@ class QuizController extends Controller
                     "status_code" => 400,
                     "status" => "error",
                     "message" => $validator->errors()->first()
+                ], Response::HTTP_BAD_REQUEST);
+            }
+
+            $token = JWTAuth::getToken();
+            $apy = JWTAuth::getPayload($token)->toArray();
+
+            if (!$comparison->ComparisonId($apy['sub'], $user_id)) {
+                return response()->json([
+                    "status_code" => 401,
+                    'status' => 'error',
+                    'message' => "Nie poprawne parametry Id!"
                 ], Response::HTTP_BAD_REQUEST);
             }
 
