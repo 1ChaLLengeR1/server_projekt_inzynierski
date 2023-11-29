@@ -120,22 +120,26 @@ ________________________________________________________________________________
 ## Ważne - Serwer przyjmuje maksylamnie plik o wartości 10M. Jeśli wrzucisz coś więcej to Ci wypluje błąd ogólny 400 z informacją, że jest błąd w trakcie uploadu zdjęcia!
 ### Get_Quiz
 ### Przyjmuje obiekt o strukturze:
-| method | url                                         |
-|--------|---------------------------------------------|
-| get    | /api/routers/http/controllers/quiz/get_quiz |
+| method | url                                         | body             |
+|--------|---------------------------------------------| -----------------|
+| get    | /api/routers/http/controllers/quiz/get_quiz | user_id          |
 ### Headers
 | name_headers | value            |
 |--------------|------------------|
 |  Accept      | application/json |
+### Walidacja inputów z strony serwera
+| validation | description                         | belongs                             |
+|------------|-------------------------------------|-------------------------------------|
+| required   | nie może być puste                  | user_id                             |
 ### Serwer zwraca response:
-| response_json  | description                               |
-|----------------|-------------------------------------------|
-| array          | Tablica quizów                            |
+| response_json  | description                                        |
+|----------------|----------------------------------------------------|
+| array          | Tablica quizów  stworzonych przez użytkownika      |
 ### status code
-| status | description                          |
-|--------|--------------------------------------|
-| 200    | tablica quizów                       |
-| 500    | Wyrzuciło serwer                     |
+| status | description                                       |
+|--------|---------------------------------------------------|
+| 200    | tablica quizów stworzonych przez użytkownika      |
+| 500    | Wyrzuciło serwer                                  |
 _________________________________________________________________________________________________________________________________________________________
 ### Add_Quiz
 ### Przyjmuje obiekt o strukturze:
@@ -148,15 +152,15 @@ ________________________________________________________________________________
 |  Accept        | application/json |
 | authorization  | Bearer 'tu token'|
 ### Walidacja inputów z strony serwera
-| validation | description                         | belongs                    |
-|------------|-------------------------------------|----------------------------|
-| required   | nie może być puste                  | name, description, image   |
-| min:10     | minimalna długość                   | name                       |
-| min:20     | minimalna długość                   | description                |
-| max:40     | maksymalna długość                  | name                       |
-| max:400    | maksymalna długość                  | description                |
-| mimes      | rozszerzenie jpeg, jpg, pmg         | image                      |
-| size       | waga zdjęcia od 0 do 5M             | image                      |
+| validation | description                         | belongs                             |
+|------------|-------------------------------------|-------------------------------------|
+| required   | nie może być puste                  | user_id, name, description, image   |
+| min:10     | minimalna długość                   | name                                |
+| min:20     | minimalna długość                   | description                         |
+| max:40     | maksymalna długość                  | name                                |
+| max:400    | maksymalna długość                  | description                         |
+| mimes      | rozszerzenie jpeg, jpg, pmg         | image                               |
+| size       | waga zdjęcia od 0 do 5M             | image                               |
 ### Serwer zwraca response:
 | response_json  | description                                         |
 |----------------|-----------------------------------------------------|
@@ -176,7 +180,7 @@ ________________________________________________________________________________
 ### Przyjmuje obiekt o strukturze:
 | method | url                                          | Form_Data                                |
 |--------|----------------------------------------------|------------------------------------------|
-| post   | /api/routers/http/controllers/quiz/edit_quiz | name, description, image(NIE WYMAGANE)   |
+| post   | /api/routers/http/controllers/quiz/edit_quiz | user_id, name, description, image(NIE WYMAGANE)   |
 ### Headers
 | name_headers   | value            |
 |----------------|------------------|
@@ -185,7 +189,7 @@ ________________________________________________________________________________
 ### Walidacja inputów z strony serwera
 | validation | description                                                                     | belongs                                   |
 |------------|---------------------------------------------------------------------------------|-------------------------------------------|
-| required   | nie może być puste                                                              | name, description, id                     |
+| required   | nie może być puste                                                              | user_id, name, description, id            |
 | exists     | id musi zgadząć się w bazie                                                     | id                                        |
 | uuid       | id musi być poprawnie zapisane (nie zmieniaj id, które jest pobrane z serwera!) | id                                        |
 | min:10     | minimalna długość                                                               | name                                      |
@@ -222,7 +226,7 @@ ________________________________________________________________________________
 ### Walidacja inputów z strony serwera
 | validation | description                                                                     | belongs                                   |
 |------------|---------------------------------------------------------------------------------|-------------------------------------------|
-| required   | nie może być puste                                                              | id                                        |
+| required   | nie może być puste                                                              | id, user_id                               |
 | exists     | id musi zgadząć się w bazie                                                     | id                                        |
 | uuid       | id musi być poprawnie zapisane (nie zmieniaj id, które jest pobrane z serwera!) | id                                        |
 ### Serwer zwraca response:
