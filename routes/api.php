@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\auth\AuthControler;
 use App\Http\Controllers\quiz\QuizController;
+use App\Http\Controllers\type_question\TypeController;
 use App\Http\Controllers\user\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -38,6 +39,17 @@ try {
         Route::post('routers/http/controllers/quiz/edit_quiz', [QuizController::class, 'EditQuiz']);
 
         Route::delete('routers/http/controllers/quiz/delete_quiz', [QuizController::class, 'DeleteQuiz']);
+    });
+
+    //Type Question request
+    Route::get('routers/http/controllers/type_question/get_types', [TypeController::class, 'GetType']);
+
+    Route::group(["middleware" => "auth:api"], function () {
+        Route::post('routers/http/controllers/type_question/add_type', [TypeController::class, 'AddType']);
+
+        Route::put('routers/http/controllers/type_question/edit_type', [TypeController::class, 'EditType']);
+
+        Route::delete('routers/http/controllers/type_question/delete_type', [TypeController::class, 'DeleteType']);
     });
 } catch (Throwable $e) {
     return response()->json([
