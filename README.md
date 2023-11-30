@@ -243,6 +243,8 @@ ________________________________________________________________________________
 | 400    | zwróci Ci informacje, któa walidacja jest nie poprawna                                                                     |
 | 401    | zwróci Ci informacje, jeśli napotka błąd podczas usuwania bierzącego zdjęcia z serwera                                     |
 | 500    | Wyrzuciło serwer                                                                                                           |
+_________________________________________________________________________________________________________________________________________________________
+## Requesty do Typów zadań|
 ### Get_Type
 ### Przyjmuje obiekt o strukturze:
 | method | url                                                   |
@@ -265,7 +267,6 @@ ________________________________________________________________________________
 | 200    | zwróci tablice typów           |
 | 500    | Wyrzuciło serwer               |
 _________________________________________________________________________________________________________________________________________________________
-## Requesty do Typów zadań
 ### Add_type
 ### Przyjmuje obiekt o strukturze:
 | method | url                                                  | Body                                     |
