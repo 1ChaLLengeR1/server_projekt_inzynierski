@@ -243,3 +243,55 @@ ________________________________________________________________________________
 | 400    | zwróci Ci informacje, któa walidacja jest nie poprawna                                                                     |
 | 401    | zwróci Ci informacje, jeśli napotka błąd podczas usuwania bierzącego zdjęcia z serwera                                     |
 | 500    | Wyrzuciło serwer                                                                                                           |
+### Get_Type
+### Przyjmuje obiekt o strukturze:
+| method | url                                                   |
+|--------|-------------------------------------------------------|
+| get    | /api/routers/http/controllers/type_question/get_types |
+### Headers
+| name_headers | value            |
+|--------------|------------------|
+|  Accept      | application/json |
+### Serwer zwraca response:
+| response_json  | description                                         |
+|----------------|-----------------------------------------------------|
+| status_code    | zwróci kod statusu                                  |
+| status         | zwróci Ci 'error' albo 'success'                    |
+| message        | zwróci Ci informacje na temat error albo success    |
+| server_message | Zwróci Ci tylko ten komunikat, jeśli wyrzuci serwer |
+### status code
+| status | description                    |
+|--------|--------------------------------|
+| 200    | zwróci tablice typów           |
+| 500    | Wyrzuciło serwer               |
+_________________________________________________________________________________________________________________________________________________________
+### Add_type
+### Przyjmuje obiekt o strukturze:
+| method | url                                                  | Body                                     |
+|--------|------------------------------------------------------|------------------------------------------|
+| post   | /api/routers/http/controllers/type_question/add_type | name, description                        |
+### Headers
+| name_headers   | value            |
+|----------------|------------------|
+|  Accept        | application/json |
+| authorization  | Bearer 'tu token'|
+### Walidacja inputów z strony serwera
+| validation | description                                                                     | belongs                                   |
+|------------|---------------------------------------------------------------------------------|-------------------------------------------|
+| required   | nie może być puste                                                              | name, description                         |
+| min: 6     | pole musi miec minimum 6 znaków                                                 | name                                      |
+| min: 10    | pole musi miec minimum 10 znaków                                                | description                               |
+### Serwer zwraca response:
+| response_json  | description                                         |
+|----------------|-----------------------------------------------------|
+| status_code    | zwróci kod statusu                                  |
+| status         | zwróci Ci 'error' albo 'success'                    |
+| message        | zwróci Ci informacje na temat error albo success    |
+| server_message | Zwróci Ci tylko ten komunikat, jeśli wyrzuci serwer |
+### status code
+| status | description                                                                                                                |
+|--------|----------------------------------------------------------------------------------------------------------------------------|
+| 201    | poprawnie utworzono                                                                                                        |
+| 400    | zwróci Ci informacje, która walidacja jest nie poprawna                                                                    |
+| 500    | Wyrzuciło serwer                                                                                                           |
+
