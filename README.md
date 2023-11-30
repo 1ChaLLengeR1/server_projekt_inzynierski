@@ -296,4 +296,65 @@ ________________________________________________________________________________
 | 201    | poprawnie utworzono                                                                                                        |
 | 400    | zwróci Ci informacje, która walidacja jest nie poprawna                                                                    |
 | 500    | Wyrzuciło serwer                                                                                                           |
-
+_________________________________________________________________________________________________________________________________________________________
+### Edit_type
+### Przyjmuje obiekt o strukturze:
+| method | url                                          | Form_Data                                |
+|--------|----------------------------------------------|------------------------------------------|
+| put    | /api/routers/http/controllers/quiz/edit_quiz | id, name, description                    |
+### Headers
+| name_headers   | value            |
+|----------------|------------------|
+|  Accept        | application/json |
+| authorization  | Bearer 'tu token'|
+### Walidacja inputów z strony serwera
+| validation | description                                                                     | belongs                                   |
+|------------|---------------------------------------------------------------------------------|-------------------------------------------|
+| required   | nie może być puste                                                              | id, name, description                     |
+| exists     | id musi zgadząć się w bazie                                                     | id                                        |
+| uuid       | id musi być poprawnie zapisane (nie zmieniaj id, które jest pobrane z serwera!) | id                                        |
+| min:5      | minimalna długość                                                               | name                                      |
+| min:10     | minimalna długość                                                               | description                               |
+### Serwer zwraca response:
+| response_json  | description                                         |
+|----------------|-----------------------------------------------------|
+| status_code    | zwróci kod statusu                                  |
+| status         | zwróci Ci 'error' albo 'success'                    |
+| message        | zwróci Ci informacje na temat error albo success    |
+| server_message | Zwróci Ci tylko ten komunikat, jeśli wyrzuci serwer |
+### status code
+| status | description                                                                                                                |
+|--------|----------------------------------------------------------------------------------------------------------------------------|
+| 200    | poprawnie z modyfikowano                                                                                                   |
+| 400    | zwróci Ci informacje, któa walidacja jest nie poprawna                                                                     |
+| 500    | Wyrzuciło serwer                                                                                                           |
+_________________________________________________________________________________________________________________________________________________________
+### Delete_type
+### Przyjmuje obiekt o strukturze:
+| method | url                                                     | Form_Data                                |
+|--------|---------------------------------------------------------|------------------------------------------|
+| delete | /api/routers/http/controllers/type_question/delete_type | id                                       |
+### Headers
+| name_headers   | value            |
+|----------------|------------------|
+|  Accept        | application/json |
+| authorization  | Bearer 'tu token'|
+### Walidacja inputów z strony serwera
+| validation | description                                                                     | belongs                                   |
+|------------|---------------------------------------------------------------------------------|-------------------------------------------|
+| required   | nie może być puste                                                              | id                                        |
+| exists     | id musi zgadząć się w bazie                                                     | id                                        |
+| uuid       | id musi być poprawnie zapisane (nie zmieniaj id, które jest pobrane z serwera!) | id                                        |
+### Serwer zwraca response:
+| response_json  | description                                         |
+|----------------|-----------------------------------------------------|
+| status_code    | zwróci kod statusu                                  |
+| status         | zwróci Ci 'error' albo 'success'                    |
+| message        | zwróci Ci informacje na temat error albo success    |
+| server_message | Zwróci Ci tylko ten komunikat, jeśli wyrzuci serwer |
+### status code
+| status | description                                                                                                                |
+|--------|----------------------------------------------------------------------------------------------------------------------------|
+| 200    | poprawnie usunięto                                                                                                         |
+| 400    | zwróci Ci informacje, któa walidacja jest nie poprawna                                                                     |
+| 500    | Wyrzuciło serwer                                                                                                           |
