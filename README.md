@@ -116,25 +116,80 @@ ________________________________________________________________________________
 | 401    | Nie poprawne ID                |
 | 500    | Wyrzuciło serwer               |
 _________________________________________________________________________________________________________________________________________________________
-
 ## Ważne - Serwer przyjmuje maksylamnie plik o wartości 10M. Jeśli wrzucisz coś więcej to Ci wypluje błąd ogólny 400 z informacją, że jest błąd w trakcie uploadu zdjęcia!
+### Get_all_quizzes
+| method | url                                                | 
+|--------|----------------------------------------------------|
+| get    | /api/routers/http/controllers/quiz/get_all_quizzes |
+### Headers
+| name_headers   | value            |
+|----------------|------------------|
+|  Accept        | application/json |
+### Serwer zwraca response:
+| response_json  | description                                        |
+|----------------|----------------------------------------------------|
+| array          | Tablica quizów  wszystkich                         |
+### status code
+| status | description                                       |
+|--------|---------------------------------------------------|
+| 200    | tablica quizów  wszystkich                        |
+| 500    | Wyrzuciło serwer                                  |
+_________________________________________________________________________________________________________________________________________________________
+### Get_single_quiz
+### Przyjmuje obiekt o strukturze:
+| method | url                                         | body                |
+|--------|---------------------------------------------| --------------------|
+| post   | /api/routers/http/controllers/quiz/get_quiz | user_id, quiz_id    |
+### Headers
+| name_headers   | value            |
+|----------------|------------------|
+|  Accept        | application/json |
+| authorization  | Bearer 'tu token'|
+### Walidacja inputów z strony serwera
+| validation | description                                                                     | belongs                                   |
+|------------|---------------------------------------------------------------------------------|-------------------------------------------|
+| required   | nie może być puste                                                              | user_id, quiz_id                          |
+| exists     | id musi zgadząć się w bazie                                                     | id                                        |
+| uuid       | id musi być poprawnie zapisane (nie zmieniaj id, które jest pobrane z serwera!) | id                                        |
+### Serwer zwraca response:
+| response_json  | description                                         |
+|----------------|-----------------------------------------------------|
+| obecjt         | Zwraca obiekt single quizu                          |
+| status_code    | zwróci kod statusu                                  |
+| status         | zwróci Ci 'error' albo 'success'                    |
+| message        | zwróci Ci informacje na temat error albo success    |
+| server_message | Zwróci Ci tylko ten komunikat, jeśli wyrzuci serwer |
+### status code
+| status | description                                       |
+|--------|---------------------------------------------------|
+| 200    | obiekt single quizu                               |
+| 400    | błąd walidacji inputu któregoś                    |
+| 500    | Wyrzuciło serwer                                  |
+
+
+_________________________________________________________________________________________________________________________________________________________
 ### Get_Quiz
 ### Przyjmuje obiekt o strukturze:
 | method | url                                         | body             |
 |--------|---------------------------------------------| -----------------|
-| get    | /api/routers/http/controllers/quiz/get_quiz | user_id          |
+| post   | /api/routers/http/controllers/quiz/get_quiz | user_id          |
 ### Headers
-| name_headers | value            |
-|--------------|------------------|
-|  Accept      | application/json |
+| name_headers   | value            |
+|----------------|------------------|
+|  Accept        | application/json |
+| authorization  | Bearer 'tu token'|
 ### Walidacja inputów z strony serwera
 | validation | description                         | belongs                             |
 |------------|-------------------------------------|-------------------------------------|
 | required   | nie może być puste                  | user_id                             |
 ### Serwer zwraca response:
-| response_json  | description                                        |
-|----------------|----------------------------------------------------|
-| array          | Tablica quizów  stworzonych przez użytkownika      |
+| response_json  | description                                         |
+|----------------|-----------------------------------------------------|
+| array          | Tablica quizów  stworzonych przez użytkownika       |
+| status_code    | zwróci kod statusu                                  |
+| status         | zwróci Ci 'error' albo 'success'                    |
+| message        | zwróci Ci informacje na temat error albo success    |
+| server_message | Zwróci Ci tylko ten komunikat, jeśli wyrzuci serwer |
 ### status code
 | status | description                                       |
 |--------|---------------------------------------------------|
