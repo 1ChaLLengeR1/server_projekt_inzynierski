@@ -16,6 +16,67 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 class QuizController extends Controller
 {
 
+    public function GetAll(Request $request, Quiz $quiz)
+    {
+        try {
+            return response()->json($quiz::all(), 200);
+        } catch (Throwable $e) {
+            return response()->json([
+                "status_code" => 500,
+                "status" => "error",
+                "message" => "Błąd w skecji pobierania wszystkich quizów!",
+                "message_server" => $e->getMessage()
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public function GetSingleQuiz(Request $request, Quiz $quiz)
+    {
+        try {
+            $quiz_id = $request->input('quiz_id');
+            $user_id = $request->input('user_id');
+            $comparison = new Functions();
+
+            $validator = Validator::make($request->all(), [
+                "user_id" => "required",
+                "quiz_id" => "required|uuid|exists:quiz_table,id"
+            ], [
+                "required" => "Pole :attribute nie może być puste!",
+                "uuid" => "id musi być poprawnie zapisane!",
+                'exists' => 'Brak takie id quizu!',
+            ]);
+
+            if ($validator->stopOnFirstFailure()->fails()) {
+                return response()->json([
+                    "status_code" => 400,
+                    'status' => 'error',
+                    'message' => $validator->errors()->first()
+                ], Response::HTTP_BAD_REQUEST);
+            }
+
+            $token = JWTAuth::getToken();
+            $apy = JWTAuth::getPayload($token)->toArray();
+
+            if (!$comparison->ComparisonId($apy['sub'], $user_id)) {
+                return response()->json([
+                    "status_code" => 401,
+                    'status' => 'error',
+                    'message' => "Nie poprawne parametry Id!"
+                ], Response::HTTP_BAD_REQUEST);
+            }
+
+            $single_quiz = $quiz::where('id', $quiz_id)->first();
+            return response()->json($single_quiz, 200);
+        } catch (Throwable $e) {
+            return response()->json([
+                "status_code" => 500,
+                "status" => "error",
+                "message" => "Błąd w skecji pobierania pojedynczego quizu!",
+                "message_server" => $e->getMessage()
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
     public function GetQuiz(Request $request, Quiz $quiz)
     {
         try {

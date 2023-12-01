@@ -30,9 +30,17 @@ try {
         Route::get('routers/http/controllers/auth/logout', [AuthControler::class, 'logout']);
     });
 
+
+
     //Quiuz request
+
+    Route::get('routers/http/controllers/quiz/get_all_quizzes', [QuizController::class, 'GetAll']);
+
     Route::group(["middleware" => "auth:api"], function () {
-        Route::get('routers/http/controllers/quiz/get_quiz', [QuizController::class, 'GetQuiz']);
+
+        Route::post('routers/http/controllers/quiz/get_single_quiz', [QuizController::class, 'GetSingleQuiz']);
+
+        Route::post('routers/http/controllers/quiz/get_quiz', [QuizController::class, 'GetQuiz']);
 
         Route::post('routers/http/controllers/quiz/add_quiz', [QuizController::class, 'AddQuiz']);
 
