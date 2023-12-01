@@ -149,8 +149,8 @@ ________________________________________________________________________________
 | validation | description                                                                     | belongs                                   |
 |------------|---------------------------------------------------------------------------------|-------------------------------------------|
 | required   | nie może być puste                                                              | user_id, quiz_id                          |
-| exists     | id musi zgadząć się w bazie                                                     | id                                        |
-| uuid       | id musi być poprawnie zapisane (nie zmieniaj id, które jest pobrane z serwera!) | id                                        |
+| exists     | id musi zgadząć się w bazie                                                     | quiz_id                                   |
+| uuid       | id musi być poprawnie zapisane (nie zmieniaj id, które jest pobrane z serwera!) | quiz_id                                   |
 ### Serwer zwraca response:
 | response_json  | description                                         |
 |----------------|-----------------------------------------------------|
