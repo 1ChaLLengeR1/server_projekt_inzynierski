@@ -272,7 +272,7 @@ ________________________________________________________________________________
 ### Przyjmuje obiekt o strukturze:
 | method | url                                            | Body                                     |
 |--------|------------------------------------------------|------------------------------------------|
-| post   | /api/routers/http/controllers/quiz/delete_quiz | id                                       |
+| delete | /api/routers/http/controllers/quiz/delete_quiz | id                                       |
 ### Headers
 | name_headers   | value            |
 |----------------|------------------|
