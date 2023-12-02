@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create("answer_table", function (Blueprint $table) {
             $table->uuid('id')->primaty()->nullable(false);
             $table->uuid('user_id')->nullable(false);
-            $table->uuid('quiestion_id')->nullable(false);
+            $table->uuid('question_id')->nullable(false);
             $table->boolean('answet_type')->nullable(false);
             $table->string('text')->nullable(false);
             $table->string('path');

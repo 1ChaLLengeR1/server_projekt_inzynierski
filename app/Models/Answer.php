@@ -14,7 +14,7 @@ class Answer extends Model
     protected $casts = [
         'id' => 'string',
         'user_id' => 'string',
-        'quiestion_id' => 'string',
+        'question_id' => 'string',
         'answet_type' => 'boolean',
         'text' => 'string',
         'path' => 'string',
