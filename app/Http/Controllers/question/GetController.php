@@ -54,7 +54,7 @@ class GetController extends Controller
                 "link_image" => $question['link_image']
             ];
 
-            return response()->json($single_question, 200);
+            return response()->json($single_question[0], 200);
         } catch (Throwable $e) {
             return response()->json([
                 "status_code" => 500,
