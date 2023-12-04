@@ -109,7 +109,7 @@ class AddController extends Controller
 
                     if ($validator_answere->stopOnFirstFailure()->fails()) {
                         return response()->json([
-                            "status_code" => 400,
+                            "status_code" => 401,
                             'status' => 'error',
                             'message' => $validator_answere->errors()->first()
                         ], 401);
@@ -132,7 +132,7 @@ class AddController extends Controller
 
             if (!$comparison->ComparisonId($apy['sub'], $user_id)) {
                 return response()->json([
-                    "status_code" => 401,
+                    "status_code" => 402,
                     'status' => 'error',
                     'message' => "Nie poprawne parametry id tokenu i użytkownika!"
                 ], 402);

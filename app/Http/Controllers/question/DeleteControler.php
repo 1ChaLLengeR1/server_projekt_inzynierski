@@ -22,7 +22,8 @@ class DeleteControler extends Controller
             $comparison = new Functions();
 
             $validator = Validator::make($request->all(), [
-                "id" => 'required|uuid|exists:question_table,id'
+                "id" => 'required|uuid|exists:question_table,id',
+                "user_id" => 'required'
             ], [
                 "required" => "Pole :attribute nie może być puste!",
                 'exists' => 'Brak takiego id pytania!',
@@ -67,16 +68,12 @@ class DeleteControler extends Controller
                 }
             } catch (Throwable $e) {
                 return response()->json([
-                    "status_code" => 500,
+                    "status_code" => 402,
                     "status" => "error",
                     "message" => "Błąd usuwania zdjęcia w quiz_controller i answer_controller. Skontaktuj się z właścicielem!",
                     "message_server" => $e->getMessage()
-                ], 401);
+                ], 402);
             }
-
-
-
-
 
             return response()->json([
                 "status_code" => 200,
