@@ -16,7 +16,8 @@ class Type_Quiz extends Model
     protected $casts = [
         'id' => 'string',
         'name' => 'string',
-        'description' => 'string'
+        'description' => 'string',
+        'type' => 'string'
     ];
 
     use HasFactory;

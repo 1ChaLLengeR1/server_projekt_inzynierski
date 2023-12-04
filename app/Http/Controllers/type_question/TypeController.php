@@ -32,10 +32,12 @@ class TypeController extends Controller
         try {
             $name = $request->input('name');
             $descrition = $request->input('description');
+            $type = $request->input('type');
 
             $validator = Validator::make($request->all(), [
                 "name" => "required|min:5",
                 "description" => "required|min:10",
+                "type" => "required"
             ], [
                 "required" => "Pole :attribute nie może być puste!",
                 'min' => 'Pole :attribute musi mieć minimum :min znaków!',
@@ -52,6 +54,7 @@ class TypeController extends Controller
             $type_quiz->id = Uuid::uuid4()->toString();
             $type_quiz->name = $name;
             $type_quiz->description = $descrition;
+            $type_quiz->type = $type;
 
             $type_quiz->save();
             return response()->json([
@@ -77,11 +80,13 @@ class TypeController extends Controller
             $id = $request->input('id');
             $name = $request->input('name');
             $descrition = $request->input('description');
+            $type = $request->input('type');
 
             $validator = Validator::make($request->all(), [
                 "id" => "required|uuid|exists:type_table,id",
                 "name" => "required|min:5",
                 "description" => "required|min:10",
+                "type" => "required"
             ], [
                 "required" => "Pole :attribute nie może być puste!",
                 'exists' => 'Brak takie id quizu!',
@@ -100,6 +105,7 @@ class TypeController extends Controller
             $type_quiz = $type_quiz::where('id', $id)->first();
             $type_quiz->name = $name;
             $type_quiz->description = $descrition;
+            $type_quiz->type = $type;
             $type_quiz->save();
 
             return response()->json([

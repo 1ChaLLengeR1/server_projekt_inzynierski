@@ -14,6 +14,8 @@ use App\Http\Controllers\user\UserController;
 #question
 use App\Http\Controllers\question\AddController;
 use App\Http\Controllers\question\GetAllController;
+use App\Http\Controllers\question\DeleteControler;
+use App\Http\Controllers\question\GetController;
 
 use Illuminate\Support\Facades\Route;
 
@@ -74,10 +76,15 @@ try {
     });
 
     // Question request
-    Route::get('routers/http/controllers/question/get_all_questions', [GetAllController::class, 'GetAllQuestions']);
+    Route::post('routers/http/controllers/question/get_all_questions', [GetAllController::class, 'GetAllQuestions']);
 
     Route::group(["middleware" => "auth:api"], function () {
+
+        Route::post('routers/http/controllers/question/get_single_question', [GetController::class, 'GeqSingleQuestion']);
+
         Route::post('routers/http/controllers/question/add_questions', [AddController::class, 'AddQuestion']);
+
+        Route::delete('routers/http/controllers/question/delete_question', [DeleteControler::class, 'DeleteQuestion']);
     });
 } catch (Throwable $e) {
     return response()->json([

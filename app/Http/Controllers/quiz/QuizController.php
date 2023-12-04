@@ -13,6 +13,8 @@ use App\Http\Controllers\HelperFunctions\Functions;
 use Storage;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
+use function PHPUnit\Framework\isNull;
+
 class QuizController extends Controller
 {
 
@@ -36,6 +38,7 @@ class QuizController extends Controller
             $quiz_id = $request->input('quiz_id');
             $user_id = $request->input('user_id');
             $comparison = new Functions();
+
 
             $validator = Validator::make($request->all(), [
                 "user_id" => "required",
@@ -288,7 +291,6 @@ class QuizController extends Controller
 
             $quiz = $quiz::where('id', $id)->first();
 
-
             if ($file) {
                 if (Storage::exists($quiz->image_path)) {
                     Storage::delete($quiz->image_path);
@@ -306,10 +308,20 @@ class QuizController extends Controller
 
                 $quiz->image_path = $filePath;
                 $quiz->link_image = $filePathServer;
-            }
+            } elseif (is_null($request->input('image'))) {
+                if (Storage::exists($quiz->image_path)) {
+                    Storage::delete($quiz->image_path);
+                } else {
+                    return response()->json([
+                        "status_code" => 401,
+                        "status" => "error",
+                        "message" => "Błąd podczas usuwania zdjęcia przed edycją. Sprawdz server, bądź powiadom o tym administratora!"
+                    ], 401);
+                }
 
-            $quiz->name = $name;
-            $quiz->description = $description;
+                $quiz->image_path = '';
+                $quiz->link_image = '';
+            }
 
             $quiz->save();
 

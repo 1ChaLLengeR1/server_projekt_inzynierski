@@ -174,7 +174,6 @@ class AddController extends Controller
 
                     $answer->path = $filePath;
                     $answer->link_image = $filePathServer;
-                    error_log("Nazwa zdjęcia: {$fileName}");
                 }
                 $answer->save();
             }

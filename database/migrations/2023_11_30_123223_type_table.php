@@ -17,6 +17,7 @@ return new class extends Migration
             $table->uuid('id')->primaty()->nullable();
             $table->string('name');
             $table->string('description');
+            $table->string('type');
         });
     }
 
