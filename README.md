@@ -326,7 +326,7 @@ ________________________________________________________________________________
 ### Przyjmuje obiekt o strukturze:
 | method | url                                                  | Body                                     |
 |--------|------------------------------------------------------|------------------------------------------|
-| post   | /api/routers/http/controllers/type_question/add_type | name, description                        |
+| post   | /api/routers/http/controllers/type_question/add_type | name, description, type                  |
 ### Headers
 | name_headers   | value            |
 |----------------|------------------|
@@ -335,7 +335,7 @@ ________________________________________________________________________________
 ### Walidacja inputów z strony serwera
 | validation | description                                                                     | belongs                                   |
 |------------|---------------------------------------------------------------------------------|-------------------------------------------|
-| required   | nie może być puste                                                              | name, description                         |
+| required   | nie może być puste                                                              | name, description, type                   |
 | min: 6     | pole musi miec minimum 6 znaków                                                 | name                                      |
 | min: 10    | pole musi miec minimum 10 znaków                                                | description                               |
 ### Serwer zwraca response:
@@ -356,7 +356,7 @@ ________________________________________________________________________________
 ### Przyjmuje obiekt o strukturze:
 | method | url                                          | Body                                     |
 |--------|----------------------------------------------|------------------------------------------|
-| put    | /api/routers/http/controllers/quiz/edit_quiz | id, name, description                    |
+| put    | /api/routers/http/controllers/quiz/edit_quiz | id, name, description, type              |
 ### Headers
 | name_headers   | value            |
 |----------------|------------------|
@@ -365,7 +365,7 @@ ________________________________________________________________________________
 ### Walidacja inputów z strony serwera
 | validation | description                                                                     | belongs                                   |
 |------------|---------------------------------------------------------------------------------|-------------------------------------------|
-| required   | nie może być puste                                                              | id, name, description                     |
+| required   | nie może być puste                                                              | id, name, description, type               |
 | exists     | id musi zgadząć się w bazie                                                     | id                                        |
 | uuid       | id musi być poprawnie zapisane (nie zmieniaj id, które jest pobrane z serwera!) | id                                        |
 | min:5      | minimalna długość                                                               | name                                      |
@@ -386,7 +386,7 @@ ________________________________________________________________________________
 _________________________________________________________________________________________________________________________________________________________
 ### Delete_type
 ### Przyjmuje obiekt o strukturze:
-| method | url                                                     | Body                                    |
+| method | url                                                     | Body                                     |
 |--------|---------------------------------------------------------|------------------------------------------|
 | delete | /api/routers/http/controllers/type_question/delete_type | id                                       |
 ### Headers
@@ -412,4 +412,139 @@ ________________________________________________________________________________
 |--------|----------------------------------------------------------------------------------------------------------------------------|
 | 200    | poprawnie usunięto                                                                                                         |
 | 400    | zwróci Ci informacje, któa walidacja jest nie poprawna                                                                     |
+| 500    | Wyrzuciło serwer                                                                                                           |
+_________________________________________________________________________________________________________________________________________________________
+## Requesty do Pytań
+### Get_Single_Question
+### Przyjmuje obiekt o strukturze:
+| method | url                                                        | Body                                     |
+|--------|------------------------------------------------------------|------------------------------------------|
+| post   | /api/routers/http/controllers/question/get_single_question | id                                       |
+### Headers
+| name_headers   | value            |
+|----------------|------------------|
+|  Accept        | application/json |
+| authorization  | Bearer 'tu token'|
+### Walidacja inputów z strony serwera
+| validation | description                                                                     | belongs                                   |
+|------------|---------------------------------------------------------------------------------|-------------------------------------------|
+| required   | nie może być puste                                                              | id                                        |
+| exists     | id musi zgadząć się w bazie                                                     | id                                        |
+| uuid       | id musi być poprawnie zapisane (nie zmieniaj id, które jest pobrane z serwera!) | id                                        |
+### Serwer zwraca response:
+| response_json  | description                                         |
+|----------------|-----------------------------------------------------|
+| status_code    | zwróci kod statusu                                  |
+| status         | zwróci Ci 'error' albo 'success'                    |
+| message        | zwróci Ci informacje na temat error albo success    |
+| server_message | Zwróci Ci tylko ten komunikat, jeśli wyrzuci serwer |
+### status code
+| status | description                                                                                                                |
+|--------|----------------------------------------------------------------------------------------------------------------------------|
+| 200    | poprawnie zwróciło obiekt                                                                                                  |
+| 400    | zwróci Ci informacje, któa walidacja jest nie poprawna                                                                     |
+| 500    | Wyrzuciło serwer                                                                                                           |
+_________________________________________________________________________________________________________________________________________________________
+### Get_Questions
+### Przyjmuje obiekt o strukturze:
+| method | url                                                        | Body                                     |
+|--------|------------------------------------------------------------|------------------------------------------|
+| post   | /api/routers/http/controllers/question/get_all_questions   | type                                     |
+### Headers
+| name_headers   | value            |
+|----------------|------------------|
+|  Accept        | application/json |
+| authorization  | Bearer 'tu token'|
+### Walidacja inputów z strony serwera
+| validation | description                                                                     | belongs                                   |
+|------------|---------------------------------------------------------------------------------|-------------------------------------------|
+| required   | nie może być puste                                                              | type                                      |
+| exists     | typ musi zgadząć się w bazie                                                    | type                                      |
+### Serwer zwraca response:
+| response_json  | description                                         |
+|----------------|-----------------------------------------------------|
+| status_code    | zwróci kod statusu                                  |
+| status         | zwróci Ci 'error' albo 'success'                    |
+| message        | zwróci Ci informacje na temat error albo success    |
+| server_message | Zwróci Ci tylko ten komunikat, jeśli wyrzuci serwer |
+### status code
+| status | description                                                                                                                |
+|--------|----------------------------------------------------------------------------------------------------------------------------|
+| 200    | poprawnie zwróciło tablice obiektów                                                                                        |
+| 400    | zwróci Ci informacje, któa walidacja jest nie poprawna                                                                     |
+| 500    | Wyrzuciło serwer                                                                                                           |
+_________________________________________________________________________________________________________________________________________________________
+### Add_Question
+### Przyjmuje obiekt o strukturze:
+## Zdjęcia nie są wymagane!
+| method | url                                                        | Body                                                                              |
+|--------|------------------------------------------------------------|-----------------------------------------------------------------------------------|
+| post   | /api/routers/http/controllers/question/add_questions       | quiz_id, type_id, user_id, text, image, array_answers[answer_type, text, images]  |
+### Headers
+| name_headers   | value            |
+|----------------|------------------|
+|  Accept        | application/json |
+| authorization  | Bearer 'tu token'|
+### Walidacja inputów z strony serwera
+| validation | description                                                                     | belongs                                   |
+|------------|---------------------------------------------------------------------------------|-------------------------------------------|
+| required   | nie może być puste                                                              | quiz_id, type_id, user_id,  text          |
+| exists     | id musi zgadząć się w bazie                                                     | quiz_id, type_id                          |
+| uuid       | uuid musi być porawnie zapisane                                                 | quiz_id, type_id                          |
+| min:10     | minimalna długość znaków to 10                                                  | text                                      |
+| mimes      | rozszerzenia zdjęć jpeg,png,jpg                                                 | image                                     |
+| between    | waga zdjęcia od 0 do 5M                                                         | image                                     |
+### Walidacja tablicy array_answers
+| validation | description                                                                     | belongs                                   |
+|------------|---------------------------------------------------------------------------------|-------------------------------------------|
+| required   | nie może być puste                                                              | answer_type, text                         |
+| boolean    | Musisz podać albo 1(true) albo 0(false). Nie mogą być to wartości True, False   | answer_type                               |
+| mimes      | rozszerzenia zdjęć jpeg,png,jpg                                                 | images                                    |
+| between    | waga zdjęcia od 0 do 5M                                                         | images                                    |
+### Serwer zwraca response:
+| response_json  | description                                         |
+|----------------|-----------------------------------------------------|
+| status_code    | zwróci kod statusu                                  |
+| status         | zwróci Ci 'error' albo 'success'                    |
+| message        | zwróci Ci informacje na temat error albo success    |
+| server_message | Zwróci Ci tylko ten komunikat, jeśli wyrzuci serwer |
+### status code
+| status | description                                                                                                                |
+|--------|----------------------------------------------------------------------------------------------------------------------------|
+| 201    | poprawnie dodano pytanie                                                                                                   |
+| 400    | zwróci Ci informacje, któa walidacja jest nie poprawna z pytania                                                           |
+| 401    | zwróci Ci informacje, któa walidacja jest nie poprawna z tablicy odpowiedzi                                                |
+| 402    | user_id i id w tokenie są nie porawne                                                                                      |
+| 500    | Wyrzuciło serwer                                                                                                           |
+_________________________________________________________________________________________________________________________________________________________
+### Delete_question
+### Przyjmuje obiekt o strukturze:
+| method | url                                                        | Body                                                                              |
+|--------|------------------------------------------------------------|-----------------------------------------------------------------------------------|
+| delete | /api/routers/http/controllers/question/delete_question     | id, user_id                                                                       |
+### Headers
+| name_headers   | value            |
+|----------------|------------------|
+|  Accept        | application/json |
+| authorization  | Bearer 'tu token'|
+### Walidacja inputów z strony serwera
+| validation | description                                                                     | belongs                                   |
+|------------|---------------------------------------------------------------------------------|-------------------------------------------|
+| required   | nie może być puste                                                              | id, user_id                               |
+| exists     | id musi zgadząć się w bazie                                                     | id                                        |
+| uuid       | id musi być poprawnie zapisane (nie zmieniaj id, które jest pobrane z serwera!) | id                                        |
+### Serwer zwraca response:
+| response_json  | description                                         |
+|----------------|-----------------------------------------------------|
+| status_code    | zwróci kod statusu                                  |
+| status         | zwróci Ci 'error' albo 'success'                    |
+| message        | zwróci Ci informacje na temat error albo success    |
+| server_message | Zwróci Ci tylko ten komunikat, jeśli wyrzuci serwer |
+### status code
+| status | description                                                                                                                |
+|--------|----------------------------------------------------------------------------------------------------------------------------|
+| 200    | poprawnie usunięto                                                                                                         |
+| 400    | zwróci Ci informacje, któa walidacja jest nie poprawna                                                                     |
+| 401    | user_id i id w tokenie są nie porawne                                                                                      |
+| 402    | błąd usuwania zdjęć na serwerze, kontakt z admnem!                                                                         |
 | 500    | Wyrzuciło serwer                                                                                                           |
