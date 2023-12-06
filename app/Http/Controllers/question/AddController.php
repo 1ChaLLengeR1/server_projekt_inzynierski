@@ -31,9 +31,6 @@ class AddController extends Controller
             $array_answers = $request->input('array_answers'); # body
             $array_answers_image = $request->file('array_answers_image');
 
-
-
-
             if (is_null($text) && is_null($image)) {
                 return response()->json([
                     "status_code" => 400,
@@ -162,10 +159,6 @@ class AddController extends Controller
 
             $decode = json_decode($array_answers);
 
-            // foreach ($decode as $item) {
-            //     error_log(print_r($item, true));
-            // }
-
             foreach ($decode  as $key => $item) {
 
                 $new_id =  Uuid::uuid4()->toString();
@@ -179,20 +172,14 @@ class AddController extends Controller
                 $answer->link_image = '';
 
 
-                // error_log(print_r($array_answers_image, true));
+                error_log(print_r($array_answers_image, true));
 
 
                 if (isset($array_answers_image)) {
-                    // error_log($array_answers_image->getClientOriginalName());
-                    // error_log(print_r($array_answers_image, true));
                     foreach ($array_answers_image as $key => $image) {
-                        // error_log($image->getClientOriginalName());
 
                         $filename = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
                         $exp = pathinfo($image->getClientOriginalName(), PATHINFO_EXTENSION);
-
-                        // error_log($filename . $exp);
-
 
                         if ($item->index ===  $filename) {
 
