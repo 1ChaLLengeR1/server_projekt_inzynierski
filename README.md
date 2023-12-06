@@ -477,9 +477,9 @@ ________________________________________________________________________________
 ### Add_Question
 ### Przyjmuje obiekt o strukturze:
 ## Zdjęcia nie są wymagane!
-| method | url                                                        | Body                                                                              |
-|--------|------------------------------------------------------------|-----------------------------------------------------------------------------------|
-| post   | /api/routers/http/controllers/question/add_questions       | quiz_id, type_id, user_id, text, image, array_answers[answer_type, text, images]  |
+| method | url                                                  | Body                                                                              |
+|--------|------------------------------------------------------|-----------------------------------------------------------------------------------|
+| post   | /api/routers/http/controllers/question/add_questions | quiz_id, type_id, user_id, text, image, array_answers[index, text, answer_type], array_answers_image[tablica plików]  |
 ### Headers
 | name_headers   | value            |
 |----------------|------------------|
@@ -488,19 +488,25 @@ ________________________________________________________________________________
 ### Walidacja inputów z strony serwera
 | validation | description                                                                     | belongs                                   |
 |------------|---------------------------------------------------------------------------------|-------------------------------------------|
-| required   | nie może być puste                                                              | quiz_id, type_id, user_id,  text          |
+| required   | nie może być puste                                                              | quiz_id, type_id, user_id, text,          |
 | exists     | id musi zgadząć się w bazie                                                     | quiz_id, type_id                          |
 | uuid       | uuid musi być porawnie zapisane                                                 | quiz_id, type_id                          |
 | min:10     | minimalna długość znaków to 10                                                  | text                                      |
 | mimes      | rozszerzenia zdjęć jpeg,png,jpg                                                 | image                                     |
 | between    | waga zdjęcia od 0 do 5M                                                         | image                                     |
+
 ### Walidacja tablicy array_answers
 | validation | description                                                                     | belongs                                   |
 |------------|---------------------------------------------------------------------------------|-------------------------------------------|
-| required   | nie może być puste                                                              | answer_type, text                         |
+| required   | nie może być puste                                                              | index , answer_type,                      |
 | boolean    | Musisz podać albo 1(true) albo 0(false). Nie mogą być to wartości True, False   | answer_type                               |
-| mimes      | rozszerzenia zdjęć jpeg,png,jpg                                                 | images                                    |
-| between    | waga zdjęcia od 0 do 5M                                                         | images                                    |
+
+### Walidacja tablicy z zdjęciami
+| validation | description                                                                     | belongs                                   |
+|------------|---------------------------------------------------------------------------------|-------------------------------------------|
+| mimes      | rozszerzenia zdjęć jpeg,png,jpg                                                 | array_answers_image                       |
+| between    | waga zdjęcia od 0 do 5M                                                         | array_answers_image                       |
+
 ### Serwer zwraca response:
 | response_json  | description                                         |
 |----------------|-----------------------------------------------------|
@@ -513,8 +519,9 @@ ________________________________________________________________________________
 |--------|----------------------------------------------------------------------------------------------------------------------------|
 | 201    | poprawnie dodano pytanie                                                                                                   |
 | 400    | zwróci Ci informacje, któa walidacja jest nie poprawna z pytania                                                           |
-| 401    | zwróci Ci informacje, któa walidacja jest nie poprawna z tablicy odpowiedzi                                                |
-| 402    | user_id i id w tokenie są nie porawne                                                                                      |
+| 401    | błąd w tablicy z pytaniami                                                                                                 |
+| 402    | błąd w tablicy z zdjęciami do pytań                                                                                        |
+| 403    | user_id i id w tokenie są nie porawne                                                                                      |
 | 500    | Wyrzuciło serwer                                                                                                           |
 _________________________________________________________________________________________________________________________________________________________
 ### Delete_question
