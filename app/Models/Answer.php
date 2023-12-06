@@ -15,7 +15,7 @@ class Answer extends Model
         'id' => 'string',
         'user_id' => 'string',
         'question_id' => 'string',
-        'answet_type' => 'boolean',
+        'answer_type' => 'boolean',
         'text' => 'string',
         'path' => 'string',
         'link_image' => 'string'

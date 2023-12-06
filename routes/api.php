@@ -16,6 +16,7 @@ use App\Http\Controllers\question\AddController;
 use App\Http\Controllers\question\GetAllController;
 use App\Http\Controllers\question\DeleteControler;
 use App\Http\Controllers\question\GetController;
+use App\Http\Controllers\question\EditController;
 
 use Illuminate\Support\Facades\Route;
 
@@ -83,6 +84,8 @@ try {
         Route::post('routers/http/controllers/question/get_single_question', [GetController::class, 'GeqSingleQuestion']);
 
         Route::post('routers/http/controllers/question/add_questions', [AddController::class, 'AddQuestion']);
+
+        Route::post('routers/http/controllers/question/edit_question', [EditController::class, 'EditQuestion']);
 
         Route::delete('routers/http/controllers/question/delete_question', [DeleteControler::class, 'DeleteQuestion']);
     });

@@ -29,13 +29,32 @@ class AddController extends Controller
             $text = $request->input('text'); # body
             $image = $request->file('image'); # body
             $array_answers = $request->input('array_answers'); # body
-            $array_answers_file = $request->file('array_answers');
+            $array_answers_image = $request->file('array_answers_image');
+
+            // foreach ($array_answers as $key => $item) {
+            //     error_log($item['index']);
+            // }
+
+            // foreach ($array_answers_image as $key => $image) {
+            //     // error_log($image->getClientOriginalName());
+            //     $filename = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
+            //     error_log($filename);
+            // }
+
+
+
+            if (is_null($text) && is_null($image)) {
+                return response()->json([
+                    "status_code" => 400,
+                    "status" => "error",
+                    "message" => "pole text i image nie mogą być puste!",
+                ], 400);
+            }
 
             $array_validators = [
                 "quiz_id" => "required|uuid|exists:quiz_table,id",
                 "type_id" => "required|uuid|exists:type_table,id",
                 "user_id" => "required",
-                "text" => "required|min:10",
             ];
 
             $array_message = [
@@ -44,7 +63,6 @@ class AddController extends Controller
                 "type_id.uuid" => "type_id musi być poprawnie zapisane!",
                 'quiz_id.exists' => 'Brak takie id quizu!',
                 'type_id.exists' => 'Brak takie id typu!',
-                'min' => 'Pole :attribute musi mieć minimum :min znaków!',
             ];
 
             if ($image) {
@@ -53,7 +71,6 @@ class AddController extends Controller
                     "quiz_id" => "required|uuid|exists:quiz_table,id",
                     "type_id" => "required|uuid|exists:type_table,id",
                     "user_id" => "required",
-                    "text" => "required|min:10",
                     "image" => "mimes:jpeg,png,jpg|between:0,5120"
                 ];
 
@@ -63,7 +80,6 @@ class AddController extends Controller
                     "type_id.uuid" => "type_id musi być poprawnie zapisane!",
                     'quiz_id.exists' => 'Brak takie id quizu!',
                     'type_id.exists' => 'Brak takie id typu!',
-                    'min' => 'Pole :attribute musi mieć minimum :min znaków!',
                     'mimes' => 'Wymagane rozszerzenia to jpg, jpeg i png, a jest załadowne: ' . $image->getClientOriginalExtension(),
                     'between' => 'Zdjęcie waży: ' . $formatBytes->formatBytes($image->getSize()) . ', a musi ważyć od 0 do 5M!'
                 ];
@@ -81,8 +97,8 @@ class AddController extends Controller
 
 
             $array_answere_validator = [
+                "array_answers.*.index" => "required",
                 "array_answers.*.answer_type" => "required|boolean",
-                "array_answers.*.text" => "required",
             ];
 
             $array_answere_message = [
@@ -90,41 +106,38 @@ class AddController extends Controller
                 "boolean" => "Pole :attribute musi być wartością Boolean!"
             ];
 
-            if ($array_answers_file) {
-                foreach ($array_answers_file as $key => $item) {
-                    $array_answere_validator = [
-                        "array_answers.{$key}.answer_type" => "required|boolean",
-                        "array_answers.{$key}.text" => "required",
-                        "array_answers.{$key}.images" => "mimes:jpeg,png,jpg|between:0,5120"
-                    ];
-
-                    $array_answere_message = [
-                        "required" => "Pole :attribute nie może być puste!",
-                        "boolean" => "Pole :attribute musi być wartością Boolean!",
-                        'mimes' => 'Wymagane rozszerzenia to jpg, jpeg i png, a jest załadowne: ' . $item['images']->getClientOriginalExtension(),
-                        'between' => 'Zdjęcie waży: ' . $formatBytes->formatBytes($item['images']->getSize()) . ', a musi ważyć od 0 do 5M!'
-                    ];
-
-                    $validator_answere = Validator::make($request->all(), $array_answere_validator, $array_answere_message);
-
-                    if ($validator_answere->stopOnFirstFailure()->fails()) {
-                        return response()->json([
-                            "status_code" => 401,
-                            'status' => 'error',
-                            'message' => $validator_answere->errors()->first()
-                        ], 401);
-                    }
-                }
-            }
-
             $validator_answere = Validator::make($request->all(), $array_answere_validator, $array_answere_message);
-
             if ($validator_answere->stopOnFirstFailure()->fails()) {
                 return response()->json([
-                    "status_code" => 400,
+                    "status_code" => 401,
                     'status' => 'error',
                     'message' => $validator_answere->errors()->first()
                 ], 401);
+            }
+
+
+
+            if ($array_answers_image) {
+                foreach ($array_answers_image as $key => $item) {
+                    $array_answere_image_validator = [
+                        "array_answers_image.*" => "mimes:jpeg,png,jpg|between:0,5120"
+                    ];
+
+                    $array_answere_image_message = [
+                        'mimes' => 'Wymagane rozszerzenia to jpg, jpeg i png, a jest załadowne: ' . $item->getClientOriginalExtension(),
+                        'between' => 'Zdjęcie waży: ' . $formatBytes->formatBytes($item->getSize()) . ', a musi ważyć od 0 do 5M!'
+                    ];
+
+                    $validator_answere_images = Validator::make($request->all(), $array_answere_image_validator, $array_answere_image_message);
+
+                    if ($validator_answere_images->stopOnFirstFailure()->fails()) {
+                        return response()->json([
+                            "status_code" => 402,
+                            'status' => 'error',
+                            'message' => $validator_answere_images->errors()->first()
+                        ], 402);
+                    }
+                }
             }
 
             $token = JWTAuth::getToken();
@@ -132,12 +145,11 @@ class AddController extends Controller
 
             if (!$comparison->ComparisonId($apy['sub'], $user_id)) {
                 return response()->json([
-                    "status_code" => 402,
+                    "status_code" => 403,
                     'status' => 'error',
                     'message' => "Nie poprawne parametry id tokenu i użytkownika!"
-                ], 402);
+                ], 403);
             }
-
 
             if ($image) {
                 $fileName = time() . '_' . $image->getClientOriginalName();
@@ -157,23 +169,39 @@ class AddController extends Controller
             $question->text = $text;
             $question->save();
 
-            foreach ($array_answers as $index => $answers) {
+
+            foreach ($array_answers as $key => $item) {
+
+                $new_id =  Uuid::uuid4()->toString();
                 $answer = new Answer();
-                $answer->id = Uuid::uuid4()->toString();
+                $answer->id = $new_id;
                 $answer->user_id = $user_id;
                 $answer->question_id = $id;
-                $answer->text = $answers['text'];
-                $answer->answet_type = $answers['answer_type'];
+                $answer->text = $item['text'];
+                $answer->answer_type = $item['answer_type'];
                 $answer->path = '';
                 $answer->link_image = '';
 
-                if (isset($array_answers_file[$index])) {
-                    $fileName = time() . '_' . rand() . '_' . $array_answers_file[$index]['images']->getClientOriginalName();
-                    $filePath = $array_answers_file[$index]['images']->storeAs('/public/files/answer_images/', $fileName);
-                    $filePathServer = asset('/storage/files/answer_images/' . $fileName);
+                if (isset($array_answers_image)) {
+                    foreach ($array_answers_image as $key => $image) {
 
-                    $answer->path = $filePath;
-                    $answer->link_image = $filePathServer;
+                        $filename = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
+                        $exp = pathinfo($image->getClientOriginalName(), PATHINFO_EXTENSION);
+
+
+                        if ($item['index'] ===  $filename) {
+
+                            $new_name_file = time() . '_' . $new_id . '.' . $exp;
+
+                            $filePath = $image->storeAs('/public/files/answer_images/', $new_name_file);
+
+                            $link_image = asset('/storage/files/answer_images/' . $new_name_file);
+
+                            $answer->path = $filePath;
+                            $answer->link_image = $link_image;
+                            $answer->save();
+                        }
+                    }
                 }
                 $answer->save();
             }
