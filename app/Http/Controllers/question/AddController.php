@@ -31,15 +31,6 @@ class AddController extends Controller
             $array_answers = $request->input('array_answers'); # body
             $array_answers_image = $request->file('array_answers_image');
 
-            // foreach ($array_answers as $key => $item) {
-            //     error_log($item['index']);
-            // }
-
-            // foreach ($array_answers_image as $key => $image) {
-            //     // error_log($image->getClientOriginalName());
-            //     $filename = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
-            //     error_log($filename);
-            // }
 
 
 
@@ -169,27 +160,41 @@ class AddController extends Controller
             $question->text = $text;
             $question->save();
 
+            $decode = json_decode($array_answers);
 
-            foreach ($array_answers as $key => $item) {
+            // foreach ($decode as $item) {
+            //     error_log(print_r($item, true));
+            // }
+
+            foreach ($decode  as $key => $item) {
 
                 $new_id =  Uuid::uuid4()->toString();
                 $answer = new Answer();
                 $answer->id = $new_id;
                 $answer->user_id = $user_id;
                 $answer->question_id = $id;
-                $answer->text = $item['text'];
-                $answer->answer_type = $item['answer_type'];
+                $answer->text = $item->text;
+                $answer->answer_type = $item->answer_type;
                 $answer->path = '';
                 $answer->link_image = '';
 
+
+                // error_log(print_r($array_answers_image, true));
+
+
                 if (isset($array_answers_image)) {
+                    // error_log($array_answers_image->getClientOriginalName());
+                    // error_log(print_r($array_answers_image, true));
                     foreach ($array_answers_image as $key => $image) {
+                        // error_log($image->getClientOriginalName());
 
                         $filename = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
                         $exp = pathinfo($image->getClientOriginalName(), PATHINFO_EXTENSION);
 
+                        // error_log($filename . $exp);
 
-                        if ($item['index'] ===  $filename) {
+
+                        if ($item->index ===  $filename) {
 
                             $new_name_file = time() . '_' . $new_id . '.' . $exp;
 
