@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Throwable;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 
 class GetTypeQuestion extends Controller
@@ -14,6 +15,23 @@ class GetTypeQuestion extends Controller
     {
         try {
             $id_question = $request->input('id');
+
+            $validator = Validator::make($request->all(), [
+                "id" => "required|uuid|exists:question_table,id"
+            ], [
+                "required" => "Pole :attribute nie może być puste!",
+                "uuid" => "Uuid jest źle zapisane!",
+                "exists" => "Brak takiego id w bazie question!",
+            ]);
+
+            if ($validator->stopOnFirstFailure()->fails()) {
+                return response()->json([
+                    "status_code" => 400,
+                    'status' => 'error',
+                    'message' => $validator->errors()->first()
+                ], 400);
+            }
+
 
             $result = DB::table('type_table')
                 ->select('type_table.id', 'name', 'description', 'type')
