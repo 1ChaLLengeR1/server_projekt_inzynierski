@@ -17,6 +17,7 @@ use App\Http\Controllers\question\GetAllController;
 use App\Http\Controllers\question\DeleteControler;
 use App\Http\Controllers\question\GetController;
 use App\Http\Controllers\question\EditController;
+use App\Http\Controllers\question\GetTypeQuestion;
 
 use Illuminate\Support\Facades\Route;
 
@@ -82,6 +83,8 @@ try {
     Route::group(["middleware" => "auth:api"], function () {
 
         Route::post('routers/http/controllers/question/get_single_question', [GetController::class, 'GeqSingleQuestion']);
+
+        Route::post('routers/http/controllers/question/get_type_question', [GetTypeQuestion::class, 'GetTypeQuestion']);
 
         Route::post('routers/http/controllers/question/add_questions', [AddController::class, 'AddQuestion']);
 

@@ -108,7 +108,7 @@ class AddController extends Controller
             if ($array_answers_image) {
                 foreach ($array_answers_image as $key => $item) {
                     $array_answere_image_validator = [
-                        "array_answers_image.*" => "mimes:jpeg,png,jpg|between:0,5120"
+                        "array_answers_image.{$key}" => "mimes:jpeg,png,jpg|between:0,5120"
                     ];
 
                     $array_answere_image_message = [
@@ -170,9 +170,6 @@ class AddController extends Controller
                 $answer->answer_type = $item->answer_type;
                 $answer->path = '';
                 $answer->link_image = '';
-
-
-                error_log(print_r($array_answers_image, true));
 
 
                 if (isset($array_answers_image)) {
