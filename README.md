@@ -445,6 +445,37 @@ ________________________________________________________________________________
 | 400    | zwróci Ci informacje, któa walidacja jest nie poprawna                                                                     |
 | 500    | Wyrzuciło serwer                                                                                                           |
 _________________________________________________________________________________________________________________________________________________________
+### Get_Type_Question
+### Przyjmuje obiekt o strukturze:
+| method | url                                                        | Body                                     |
+|--------|------------------------------------------------------------|------------------------------------------|
+| post   | /api/routers/http/controllers/question/get_type_question   | id                                       |
+### Headers
+| name_headers   | value            |
+|----------------|------------------|
+|  Accept        | application/json |
+| authorization  | Bearer 'tu token'|
+### Walidacja inputów z strony serwera
+| validation | description                                                                     | belongs                                   |
+|------------|---------------------------------------------------------------------------------|-------------------------------------------|
+| required   | nie może być puste                                                              | id                                        |
+| exists     | typ musi zgadząć się w bazie                                                    | id                                        |
+| uuid       | uuid musi być poprawnie zapisane                                                | id                                        |
+### Serwer zwraca response:
+| response_json  | description                                         |
+|----------------|-----------------------------------------------------|
+| status_code    | zwróci kod statusu                                  |
+| status         | zwróci Ci 'error' albo 'success'                    |
+| message        | zwróci Ci informacje na temat error albo success    |
+| server_message | Zwróci Ci tylko ten komunikat, jeśli wyrzuci serwer |
+### status code
+| status | description                                                                                                                |
+|--------|----------------------------------------------------------------------------------------------------------------------------|
+| 200    | poprawnie zwróciło obiekt type question                                                                                                  |
+| 400    | zwróci Ci informacje, któa walidacja jest nie poprawna                                                                     |
+| 500    | Wyrzuciło serwer                                                                                                           |
+
+_________________________________________________________________________________________________________________________________________________________
 ### Get_Questions
 ### Przyjmuje obiekt o strukturze:
 | method | url                                                        | Body                                     |
