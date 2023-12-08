@@ -561,6 +561,11 @@ ________________________________________________________________________________
 | method | url                                                  | Body                                                                              |
 |--------|------------------------------------------------------|-----------------------------------------------------------------------------------|
 | post   | /api/routers/http/controllers/question/edit_question | question_id, quiz_id, type_id, user_id, text, image, array_answers[index, text, answer_type], array_images[tablica plików], delete_answers[tablica id_answear], array_answers_edit[index, text, answer_type, delete_image]   |
+### Headers
+| name_headers   | value            |
+|----------------|------------------|
+|  Accept        | application/json |
+| authorization  | Bearer 'tu token'|
 ### Walidacja inputów z strony serwera
 | validation | description                                                                     | belongs                                                   |
 |------------|---------------------------------------------------------------------------------|-----------------------------------------------------------|
