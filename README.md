@@ -585,7 +585,7 @@ ________________________________________________________________________________
 | 401    | user_id i id w tokenie są nie porawne                                                                                      |
 | 402    | błąd walidacji tablicy do usunięcia!                                                                                       |
 | 403    | błąd walidacji tablicy zdjęć!                                                                                              |
-| 404    | błąd walidacji z pytaniami do dodania                                                                                      |
+| 404    | błąd walidacji tablicy z pytaniami do dodania                                                                              |
 | 405    | błąd walidacji tablicy z pytaniami do edycji                                                                               |
 | 500    | Wyrzuciło serwer                                                                                                           |
 _________________________________________________________________________________________________________________________________________________________
