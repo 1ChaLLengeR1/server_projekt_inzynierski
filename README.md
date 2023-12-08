@@ -555,6 +555,38 @@ ________________________________________________________________________________
 | 403    | user_id i id w tokenie są nie porawne                                                                                      |
 | 500    | Wyrzuciło serwer                                                                                                           |
 _________________________________________________________________________________________________________________________________________________________
+### Add_Question
+### Przyjmuje obiekt o strukturze:
+## Zdjęcia nie są wymagane!
+| method | url                                                  | Body                                                                              |
+|--------|------------------------------------------------------|-----------------------------------------------------------------------------------|
+| post   | /api/routers/http/controllers/question/add_questions | question_id, quiz_id, type_id, user_id, text, image, array_answers[index, text, answer_type], array_images[tablica plików], delete_answers[tablica id_answear], array_answers_edit[index, text, answer_type, delete_image]   |
+### Walidacja inputów z strony serwera
+| validation | description                                                                     | belongs                                                   |
+|------------|---------------------------------------------------------------------------------|-----------------------------------------------------------|
+| required   | nie może być puste                                                              | question_id, quiz_id, type_id, user_id, text, array_answers_edit[index, answer_type, delete_image], array_answers[index, answer_type]              |
+| uuid       | uuid musi być porawnie zapisane                                                 | question_id, quiz_id, type_id, array_answers_edit[index]  |
+| exists     | id musi zgadząć się w bazie                                                     | question_id, quiz_id, type_id, array_answers_edit[index]  |
+| mimes      | rozszerzenia zdjęć jpeg,png,jpg                                                 | array_images, image                                       |
+| between    | waga zdjęcia od 0 do 5M                                                         | array_images, image                                       |
+| boolean    | musi być zapisane jako 1 lub 0 (nie może być jako true i false)                 | array_answers_edit[answer_type, delete_image], array_answers[answer_type]  |
+### Serwer zwraca response:
+| response_json  | description                                         |
+|----------------|-----------------------------------------------------|
+| status_code    | zwróci kod statusu                                  |
+| status         | zwróci Ci 'error' albo 'success'                    |
+| message        | zwróci Ci informacje na temat error albo success    |
+| server_message | Zwróci Ci tylko ten komunikat, jeśli wyrzuci serwer |
+### status code
+| status | description                                                                                                                |
+|--------|----------------------------------------------------------------------------------------------------------------------------|
+| 200    | poprawnie z modyfikowano                                                                                                   |
+| 400    | zwróci Ci informacje, któa walidacja jest nie poprawna z pytania                                                           |
+| 401    | błąd w tablicy z pytaniami                                                                                                 |
+| 402    | błąd w tablicy z zdjęciami do pytań                                                                                        |
+| 403    | user_id i id w tokenie są nie porawne                                                                                      |
+| 500    | Wyrzuciło serwer                                                                                                           |
+_________________________________________________________________________________________________________________________________________________________
 ### Delete_question
 ### Przyjmuje obiekt o strukturze:
 | method | url                                                        | Body                                                                              |
@@ -584,5 +616,8 @@ ________________________________________________________________________________
 | 200    | poprawnie usunięto                                                                                                         |
 | 400    | zwróci Ci informacje, któa walidacja jest nie poprawna                                                                     |
 | 401    | user_id i id w tokenie są nie porawne                                                                                      |
-| 402    | błąd usuwania zdjęć na serwerze, kontakt z admnem!                                                                         |
+| 402    | błąd walidacji tablicy do usunięcia!                                                                                       |
+| 403    | błąd walidacji tablicy zdjęć!                                                                                              |
+| 404    | błąd walidacji z pytaniami do dodania                                                                                      |
+| 405    | błąd walidacji tablicy z pytaniami do edycji                                                                               |
 | 500    | Wyrzuciło serwer                                                                                                           |
