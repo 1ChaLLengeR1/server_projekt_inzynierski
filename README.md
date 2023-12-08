@@ -580,11 +580,13 @@ ________________________________________________________________________________
 ### status code
 | status | description                                                                                                                |
 |--------|----------------------------------------------------------------------------------------------------------------------------|
-| 200    | poprawnie z modyfikowano                                                                                                   |
-| 400    | zwróci Ci informacje, któa walidacja jest nie poprawna z pytania                                                           |
-| 401    | błąd w tablicy z pytaniami                                                                                                 |
-| 402    | błąd w tablicy z zdjęciami do pytań                                                                                        |
-| 403    | user_id i id w tokenie są nie porawne                                                                                      |
+| 200    | poprawnie usunięto                                                                                                         |
+| 400    | zwróci Ci informacje, któa walidacja jest nie poprawna                                                                     |
+| 401    | user_id i id w tokenie są nie porawne                                                                                      |
+| 402    | błąd walidacji tablicy do usunięcia!                                                                                       |
+| 403    | błąd walidacji tablicy zdjęć!                                                                                              |
+| 404    | błąd walidacji z pytaniami do dodania                                                                                      |
+| 405    | błąd walidacji tablicy z pytaniami do edycji                                                                               |
 | 500    | Wyrzuciło serwer                                                                                                           |
 _________________________________________________________________________________________________________________________________________________________
 ### Delete_question
@@ -616,8 +618,4 @@ ________________________________________________________________________________
 | 200    | poprawnie usunięto                                                                                                         |
 | 400    | zwróci Ci informacje, któa walidacja jest nie poprawna                                                                     |
 | 401    | user_id i id w tokenie są nie porawne                                                                                      |
-| 402    | błąd walidacji tablicy do usunięcia!                                                                                       |
-| 403    | błąd walidacji tablicy zdjęć!                                                                                              |
-| 404    | błąd walidacji z pytaniami do dodania                                                                                      |
-| 405    | błąd walidacji tablicy z pytaniami do edycji                                                                               |
 | 500    | Wyrzuciło serwer                                                                                                           |
