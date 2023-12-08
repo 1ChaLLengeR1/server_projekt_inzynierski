@@ -560,7 +560,7 @@ ________________________________________________________________________________
 ## Zdjęcia nie są wymagane!
 | method | url                                                  | Body                                                                              |
 |--------|------------------------------------------------------|-----------------------------------------------------------------------------------|
-| post   | /api/routers/http/controllers/question/add_questions | question_id, quiz_id, type_id, user_id, text, image, array_answers[index, text, answer_type], array_images[tablica plików], delete_answers[tablica id_answear], array_answers_edit[index, text, answer_type, delete_image]   |
+| post   | /api/routers/http/controllers/question/edit_question | question_id, quiz_id, type_id, user_id, text, image, array_answers[index, text, answer_type], array_images[tablica plików], delete_answers[tablica id_answear], array_answers_edit[index, text, answer_type, delete_image]   |
 ### Walidacja inputów z strony serwera
 | validation | description                                                                     | belongs                                                   |
 |------------|---------------------------------------------------------------------------------|-----------------------------------------------------------|
