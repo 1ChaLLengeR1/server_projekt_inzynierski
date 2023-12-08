@@ -27,6 +27,7 @@ class EditController extends Controller
             $text = $request->input('text');
             $array_delete_answers = $request->input('delete_answers');
             $array_answers = json_decode($request->input('array_answers'));
+            $array_answers_edit = json_decode($request->input("array_answers_edit"), true);
             $array_images = $request->file('array_images');
 
 
@@ -171,6 +172,32 @@ class EditController extends Controller
                 }
             }
 
+            // Checking by Validator array_answers_edit
+            if ($array_answers_edit) {
+                $valid_array = [
+                    "*.index" => "required|uuid|exists:answer_table,id",
+                    "*.answer_type" => "required|boolean",
+                    "*.delete_image" => "required|boolean",
+                ];
+                $valid_message = [
+                    "required" => "Pole :attribute nie może być puste!",
+                    "uuid" => "id jest źle zapisane w tablicy rzeczy do usunięcia!",
+                    "exists" => "brak takiego id w bazie odpowiedzi w tablicy rzeczy do usunięcia!",
+                    "boolean" => "wartość :attribute jest zapisany nie jako boolean!",
+                ];
+
+
+                $validator_edit = Validator::make($array_answers_edit, $valid_array,  $valid_message);
+
+                if ($validator_edit->stopOnFirstFailure()->fails()) {
+                    return response()->json([
+                        "status_code" => 405,
+                        'status' => 'error',
+                        'message' => $validator_edit->errors()->first()
+                    ], 405);
+                }
+            }
+
 
             // Edit image and text question
             $question = $question::where('id', $question_id)->first();
@@ -193,9 +220,8 @@ class EditController extends Controller
                 }
             } else {
                 if ($request->input('image')) {
-                    return;
-                }
-                if (empty($request->hasFile('image'))) {
+                    echo false;
+                } elseif (empty($request->hasFile('image'))) {
                     if (Storage::exists($question->path)) {
                         Storage::delete($question->path);
                     }
@@ -255,6 +281,60 @@ class EditController extends Controller
                     $answer->save();
                 }
             }
+
+            //foreach edit answers
+            if ($array_answers_edit) {
+                foreach ($array_answers_edit as $key => $item) {
+                    $id_answer = $answer::where('id', $item['index'])->first();
+                    $id_answer->text = $item['text'];
+                    $id_answer->answer_type = $item['answer_type'];
+                    $id_answer->save();
+
+                    if ($array_images) {
+                        foreach ($array_images as $key => $image) {
+
+                            $filename = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
+                            $exp = pathinfo($image->getClientOriginalName(), PATHINFO_EXTENSION);
+                            if ($item['index'] === $filename) {
+                                error_log($item['index']);
+
+                                if (Storage::exists($id_answer['path'])) {
+                                    Storage::delete($id_answer['path']);
+
+                                    $new_name_file = time() . '_' . $id_answer->id . '.' . $exp;
+
+                                    $filePath = $image->storeAs('/public/files/answer_images/', $new_name_file);
+
+                                    $link_image = asset('/storage/files/answer_images/' . $new_name_file);
+
+                                    $id_answer->path = $filePath;
+                                    $id_answer->link_image = $link_image;
+                                    $id_answer->save();
+                                }
+                            } else {
+                                if ($item['delete_image'] === 1) {
+                                    if (Storage::exists($id_answer['path'])) {
+                                        Storage::delete($id_answer['path']);
+                                    }
+                                    $id_answer->path = '';
+                                    $id_answer->link_image = '';
+                                    $id_answer->save();
+                                }
+                            }
+                        }
+                    } else {
+                        if ($item['delete_image'] === 1) {
+                            if (Storage::exists($id_answer['path'])) {
+                                Storage::delete($id_answer['path']);
+                            }
+                            $id_answer->path = '';
+                            $id_answer->link_image = '';
+                            $id_answer->save();
+                        }
+                    }
+                }
+            }
+
 
             return response()->json([
                 "status_code" => 200,

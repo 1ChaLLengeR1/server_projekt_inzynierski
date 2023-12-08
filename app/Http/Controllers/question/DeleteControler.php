@@ -61,7 +61,6 @@ class DeleteControler extends Controller
                     foreach ($delete_answers as $key => $item) {
                         if (Storage::exists($item['path'])) {
                             Storage::delete($item['path']);
-                            error_log($item['id']);
                             $answer::where('question_id', $id)->delete();
                         }
                     }
