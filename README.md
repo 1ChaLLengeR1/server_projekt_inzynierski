@@ -624,3 +624,33 @@ ________________________________________________________________________________
 | 400    | zwróci Ci informacje, któa walidacja jest nie poprawna                                                                     |
 | 401    | user_id i id w tokenie są nie porawne                                                                                      |
 | 500    | Wyrzuciło serwer                                                                                                           |
+_________________________________________________________________________________________________________________________________________________________
+### Get_Game
+### Przyjmuje obiekt o strukturze:
+| method | url                                                        | Body                                                                              |
+|--------|------------------------------------------------------------|-----------------------------------------------------------------------------------|
+| post   | /api/routers/http/controllers/game/get_game                | quiz_id                                                                           |
+### Headers
+| name_headers   | value            |
+|----------------|------------------|
+|  Accept        | application/json |
+| authorization  | Bearer 'tu token'|
+### Walidacja inputów z strony serwera
+| validation | description                                                                     | belongs                                   |
+|------------|---------------------------------------------------------------------------------|-------------------------------------------|
+| required   | nie może być puste                                                              | user_id                                   |
+| exists     | id musi zgadząć się w bazie                                                     | user_id                                   |
+| uuid       | id musi być poprawnie zapisane                                                  | user_id                                   |
+### Serwer zwraca response:
+| response_json  | description                                         |
+|----------------|-----------------------------------------------------|
+| status_code    | zwróci kod statusu                                  |
+| status         | zwróci Ci 'error' albo 'success'                    |
+| message        | zwróci Ci informacje na temat error albo success    |
+| server_message | Zwróci Ci tylko ten komunikat, jeśli wyrzuci serwer |
+### status code
+| status | description                                                                                                                |
+|--------|----------------------------------------------------------------------------------------------------------------------------|
+| 200    | pobierze obiekt gry                                                                                                        |
+| 400    | zwróci Ci informacje, któa walidacja jest nie poprawna                                                                     |
+| 500    | Wyrzuciło serwer                                                                                                           |
