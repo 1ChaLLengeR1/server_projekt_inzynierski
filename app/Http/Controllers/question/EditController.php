@@ -201,6 +201,7 @@ class EditController extends Controller
 
             // Edit image and text question
             $question = $question::where('id', $question_id)->first();
+            $question->quiz_id = $quiz_id;
             $question->type_id = $type_id;
             $question->text =  $text;
 

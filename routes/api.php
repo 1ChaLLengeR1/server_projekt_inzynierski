@@ -19,6 +19,9 @@ use App\Http\Controllers\question\GetController;
 use App\Http\Controllers\question\EditController;
 use App\Http\Controllers\question\GetTypeQuestion;
 
+#game
+use App\Http\Controllers\game\getGame;
+
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -91,6 +94,11 @@ try {
         Route::post('routers/http/controllers/question/edit_question', [EditController::class, 'EditQuestion']);
 
         Route::delete('routers/http/controllers/question/delete_question', [DeleteControler::class, 'DeleteQuestion']);
+    });
+
+    // Game request
+    Route::group(["middleware" => "auth:api"], function () {
+        Route::post('routers/http/controllers/game/get_game', [getGame::class, 'getGame']);
     });
 } catch (Throwable $e) {
     return response()->json([
