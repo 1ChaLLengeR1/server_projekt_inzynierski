@@ -505,6 +505,37 @@ ________________________________________________________________________________
 | 400    | zwróci Ci informacje, któa walidacja jest nie poprawna                                                                     |
 | 500    | Wyrzuciło serwer                                                                                                           |
 _________________________________________________________________________________________________________________________________________________________
+### Only_Questions
+### Przyjmuje obiekt o strukturze:
+| method | url                                                        | Body                                     |
+|--------|------------------------------------------------------------|------------------------------------------|
+| post   | /api/routers/http/controllers/question/only_questions      | quiz_id, user_id                         |
+### Headers
+| name_headers   | value            |
+|----------------|------------------|
+|  Accept        | application/json |
+| authorization  | Bearer 'tu token'|
+### Walidacja inputów z strony serwera
+| validation | description                                                                     | belongs                                   |
+|------------|---------------------------------------------------------------------------------|-------------------------------------------|
+| required   | nie może być puste                                                              | quiz_id, user_id                          |
+| uuid       | uuid musi być porawnie zapisane                                                 | quiz_id, user_id                          |
+| exists     | id musi zgadząć się w bazie                                                     | quiz_id, user_id                          |
+### Serwer zwraca response:
+| response_json  | description                                         |
+|----------------|-----------------------------------------------------|
+| status_code    | zwróci kod statusu                                  |
+| status         | zwróci Ci 'error' albo 'success'                    |
+| message        | zwróci Ci informacje na temat error albo success    |
+| server_message | Zwróci Ci tylko ten komunikat, jeśli wyrzuci serwer |
+### status code
+| status | description                                                                                                                |
+|--------|----------------------------------------------------------------------------------------------------------------------------|
+| 200    | zwróci tablice question                                                                                                    |
+| 400    | zwróci Ci informacje, która walidacja jest nie poprawna z pytania                                                          |
+| 401    | user_id jest błędne z id w tokenie                                                                                         |
+| 500    | Wyrzuciło serwer                                                                                                           |
+_________________________________________________________________________________________________________________________________________________________
 ### Add_Question
 ### Przyjmuje obiekt o strukturze:
 ## Zdjęcia nie są wymagane!
