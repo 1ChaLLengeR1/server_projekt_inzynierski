@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create("game_result", function (Blueprint $table) {
             $table->uuid('id')->primaty()->nullable(false);
+            $table->uuid('quiz_id')->nullable(false);
             $table->uuid('user_id')->nullable(false);
             $table->string('name')->nullable(false);
             $table->integer('result')->nullable(false);

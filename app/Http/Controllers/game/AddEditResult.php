@@ -19,11 +19,13 @@ class AddEditResult extends Controller
         try {
 
             $user_id = $request->input('user_id');
+            $quiz_id = $request->input('quiz_id');
             $result = $request->input('result');
             $comparison = new Functions();
 
             $validator = Validator::make($request->all(), [
                 "user_id" => "required|uuid|exists:users_table,id",
+                "quiz_id" => "required|uuid|exists:quiz_table,id",
                 "result" => "required|numeric"
             ], [
                 "required" => "Pole :attribute nie może być puste!",
@@ -60,6 +62,7 @@ class AddEditResult extends Controller
                 $game_result = new GameResult();
 
                 $game_result->id = Uuid::uuid4()->toString();
+                $game_result->quiz_id = $quiz_id;
                 $game_result->name = $user->username;
                 $game_result->result = $result;
                 $game_result->user_id = $user_id;

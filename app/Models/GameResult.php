@@ -13,6 +13,7 @@ class GameResult extends Model
     protected $table = 'game_result';
     protected $casts = [
         'id' => 'string',
+        'quiz_id' => 'string',
         'user_id' => 'string',
         'name' => 'string',
         'result' => 'integer',
