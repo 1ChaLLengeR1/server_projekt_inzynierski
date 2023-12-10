@@ -701,7 +701,7 @@ ________________________________________________________________________________
 | required   | nie może być puste                                                              | quiz_id                                   |
 | exists     | id musi zgadząć się w bazie                                                     | quiz_id                                   |
 | uuid       | id musi być poprawnie zapisane                                                  | quiz_id                                   |
-| limit      | pusty string to pobierze wszystkie, liczba to ilość pobranych wyników           | quiz_id                                   |
+| limit      | pusty string to pobierze wszystkie, liczba to ilość pobranych wyników           | limit                                     |
 ### Serwer zwraca response:
 | response_json  | description                                         |
 |----------------|-----------------------------------------------------|
