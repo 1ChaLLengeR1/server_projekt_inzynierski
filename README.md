@@ -685,3 +685,67 @@ ________________________________________________________________________________
 | 200    | pobierze obiekt gry                                                                                                        |
 | 400    | zwróci Ci informacje, któa walidacja jest nie poprawna                                                                     |
 | 500    | Wyrzuciło serwer                                                                                                           |
+_________________________________________________________________________________________________________________________________________________________
+### Get_Result
+### Przyjmuje obiekt o strukturze:
+| method | url                                                        | Body                                                                              |
+|--------|------------------------------------------------------------|-----------------------------------------------------------------------------------|
+| post   | /api/routers/http/controllers/game/get_result              | quiz_id, limit                                                                    |
+### Headers
+| name_headers   | value            |
+|----------------|------------------|
+|  Accept        | application/json |
+### Walidacja inputów z strony serwera
+| validation | description                                                                     | belongs                                   |
+|------------|---------------------------------------------------------------------------------|-------------------------------------------|
+| required   | nie może być puste                                                              | quiz_id                                   |
+| exists     | id musi zgadząć się w bazie                                                     | quiz_id                                   |
+| uuid       | id musi być poprawnie zapisane                                                  | quiz_id                                   |
+| limit      | pusty string to pobierze wszystkie, liczba to ilość pobranych wyników           | quiz_id                                   |
+### Serwer zwraca response:
+| response_json  | description                                         |
+|----------------|-----------------------------------------------------|
+| status_code    | zwróci kod statusu                                  |
+| status         | zwróci Ci 'error' albo 'success'                    |
+| message        | zwróci Ci informacje na temat error albo success    |
+| server_message | Zwróci Ci tylko ten komunikat, jeśli wyrzuci serwer |
+### status code
+| status | description                                                                                                                |
+|--------|----------------------------------------------------------------------------------------------------------------------------|
+| 200    | pobierze tablice wyników                                                                                                   |
+| 400    | zwróci Ci informacje, któa walidacja jest nie poprawna                                                                     |
+| 500    | Wyrzuciło serwer                                                                                                           |
+_________________________________________________________________________________________________________________________________________________________
+### Add_Edit_Result
+### Przyjmuje obiekt o strukturze:
+| method | url                                                        | Body                                                                              |
+|--------|------------------------------------------------------------|-----------------------------------------------------------------------------------|
+| post   | /api/routers/http/controllers/game/add_edit_result         | user_id, quiz_id, result                                                          |
+### Headers
+| name_headers   | value            |
+|----------------|------------------|
+|  Accept        | application/json |
+| authorization  | Bearer 'tu token'|
+### Walidacja inputów z strony serwera
+| validation | description                                                                     | belongs                                   |
+|------------|---------------------------------------------------------------------------------|-------------------------------------------|
+| required   | nie może być puste                                                              | quiz_id, user_id, result                  |
+| exists     | id musi zgadząć się w bazie                                                     | quiz_id, user_id                          |
+| uuid       | id musi być poprawnie zapisane                                                  | quiz_id, user_id                          |
+| numeric    | musi być podana liczbya całkowita                                               | result                                    |
+### Serwer zwraca response:
+| response_json  | description                                         |
+|----------------|-----------------------------------------------------|
+| status_code    | zwróci kod statusu                                  |
+| status         | zwróci Ci 'error' albo 'success'                    |
+| message        | zwróci Ci informacje na temat error albo success    |
+| server_message | Zwróci Ci tylko ten komunikat, jeśli wyrzuci serwer |
+### status code
+| status | description                                                                                                                |
+|--------|----------------------------------------------------------------------------------------------------------------------------|
+| 200    | poprawnie zapisze zmiany w result dla użytkownika                                                                          |
+| 201    | utworzy Ci nowego użytkownika w tabeli result                                                                              |
+| 400    | zwróci Ci informacje, któa walidacja jest nie poprawna                                                                     |
+| 401    | user_id i id w tokenie są nie porawne                                                                                      |
+| 500    | Wyrzuciło serwer                                                                                                           |
+
