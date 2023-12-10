@@ -15,12 +15,15 @@ use App\Http\Controllers\user\UserController;
 use App\Http\Controllers\question\AddController;
 use App\Http\Controllers\question\GetAllController;
 use App\Http\Controllers\question\DeleteControler;
-use App\Http\Controllers\question\GetController;
+use App\Http\Controllers\question\GetSingleController;
 use App\Http\Controllers\question\EditController;
-use App\Http\Controllers\question\GetTypeQuestion;
+use App\Http\Controllers\question\GetTypeController;
+use App\Http\Controllers\question\OnlyQuestionsController;
 
 #game
 use App\Http\Controllers\game\getGame;
+use App\Http\Controllers\game\AddEditResult;
+use App\Http\Controllers\game\GetResults;
 
 use Illuminate\Support\Facades\Route;
 
@@ -85,9 +88,11 @@ try {
 
     Route::group(["middleware" => "auth:api"], function () {
 
-        Route::post('routers/http/controllers/question/get_single_question', [GetController::class, 'GeqSingleQuestion']);
+        Route::post('routers/http/controllers/question/get_single_question', [GetSingleController::class, 'GeqSingleQuestion']);
 
-        Route::post('routers/http/controllers/question/get_type_question', [GetTypeQuestion::class, 'GetTypeQuestion']);
+        Route::post('routers/http/controllers/question/get_type_question', [GetTypeController::class, 'GetTypeQuestion']);
+
+        Route::post('routers/http/controllers/question/only_questions', [OnlyQuestionsController::class, 'OnlyQuestions']);
 
         Route::post('routers/http/controllers/question/add_questions', [AddController::class, 'AddQuestion']);
 
@@ -96,8 +101,14 @@ try {
         Route::delete('routers/http/controllers/question/delete_question', [DeleteControler::class, 'DeleteQuestion']);
     });
 
-    // Game request
+    // Game request GetResults
+
+    Route::post('routers/http/controllers/game/get_result', [GetResults::class, 'GetResult']);
+
     Route::group(["middleware" => "auth:api"], function () {
+
+        Route::post('routers/http/controllers/game/add_edit_result', [AddEditResult::class, 'AddEdit']);
+
         Route::post('routers/http/controllers/game/get_game', [getGame::class, 'getGame']);
     });
 } catch (Throwable $e) {

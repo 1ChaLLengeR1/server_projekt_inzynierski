@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 
-class GetTypeQuestion extends Controller
+class GetTypeController extends Controller
 {
     public function GetTypeQuestion(Request $request)
     {

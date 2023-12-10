@@ -10,7 +10,7 @@ use App\Models\Question;
 use App\Models\Answer;
 use App\Models\Type_Quiz;
 
-class GetController extends Controller
+class GetSingleController extends Controller
 {
     public function GeqSingleQuestion(Request $request, Question $question, Answer $answers, Type_Quiz $type_quiz)
     {

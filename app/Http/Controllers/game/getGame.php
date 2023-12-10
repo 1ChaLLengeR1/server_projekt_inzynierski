@@ -14,7 +14,7 @@ use App\Models\Quiz;
 
 class getGame extends Controller
 {
-    public function getGame(Request $request, Quiz $quiz, Question $question, Answer $answer)
+    public function getGame(Request $request, Quiz $quiz, Question $question, Answer $answer, Type_Quiz $type_quiz)
     {
         try {
             $quiz_id = $request->input('quiz_id');
@@ -46,6 +46,8 @@ class getGame extends Controller
 
                 $get_all_answers = $answer::where('question_id', $item['id'])->get();
 
+                $get_type_question = $type_quiz::where('id', $item['type_id'])->first();
+
                 foreach ($get_all_answers as $key => $item_answer) {
                     $answers[] = (object)[
                         "id" => $item_answer['id'],
@@ -61,6 +63,7 @@ class getGame extends Controller
                     "quiz_id" => $item['quiz_id'],
                     "text" => $item['text'],
                     "link_image" => $item['link_image'],
+                    "type" => $get_type_question,
                     "answers" => $answers
                 ];
 
