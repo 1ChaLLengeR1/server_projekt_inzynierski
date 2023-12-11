@@ -600,12 +600,13 @@ ________________________________________________________________________________
 ### Walidacja inputów z strony serwera
 | validation | description                                                                     | belongs                                                   |
 |------------|---------------------------------------------------------------------------------|-----------------------------------------------------------|
-| required   | nie może być puste                                                              | question_id, quiz_id, type_id, user_id, text, array_answers_edit[index, answer_type, delete_image], array_answers[index, answer_type]              |
-| uuid       | uuid musi być porawnie zapisane                                                 | question_id, quiz_id, type_id, array_answers_edit[index]  |
-| exists     | id musi zgadząć się w bazie                                                     | question_id, quiz_id, type_id, array_answers_edit[index]  |
-| mimes      | rozszerzenia zdjęć jpeg,png,jpg                                                 | array_images, image                                       |
-| between    | waga zdjęcia od 0 do 5M                                                         | array_images, image                                       |
-| boolean    | musi być zapisane jako 1 lub 0 (nie może być jako true i false)                 | array_answers_edit[answer_type, delete_image], array_answers[answer_type]  |
+| required   | nie może być puste                                                | question_id, quiz_id, type_id, user_id, text, array_answers_edit[index, answer_type, delete_image], array_answers[index, answer_type]              |
+| uuid       | uuid musi być porawnie zapisane                                   | question_id, quiz_id, type_id, array_answers_edit[index]  |
+| min:10     | musi text mieć minimum 10 znaków                                  | text                                                      |
+| exists     | id musi zgadząć się w bazie                                       | question_id, quiz_id, type_id, array_answers_edit[index]  |
+| mimes      | rozszerzenia zdjęć jpeg,png,jpg                                   | array_images, image                                       |
+| between    | waga zdjęcia od 0 do 5M                                           | array_images, image                                       |
+| boolean    | musi być zapisane jako 1 lub 0 (nie może być jako true i false)   | array_answers_edit[answer_type, delete_image], array_answers[answer_type]  |
 ### Serwer zwraca response:
 | response_json  | description                                         |
 |----------------|-----------------------------------------------------|
