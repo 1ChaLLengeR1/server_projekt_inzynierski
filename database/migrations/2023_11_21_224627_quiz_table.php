@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('description');
             $table->string('image_path');
             $table->string('link_image');
+            $table->integer('quantity');
         });
     }
 

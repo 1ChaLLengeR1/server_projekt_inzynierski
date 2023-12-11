@@ -29,10 +29,19 @@ class EditController extends Controller
             $array_answers = json_decode($request->input('array_answers'));
             $array_answers_edit = json_decode($request->input("array_answers_edit"), true);
             $array_images = $request->file('array_images');
-
+            $image = $request->file('image');
 
             $comparison = new Functions();
             $formatBytes = new Functions();
+
+
+            if (is_null($text) && is_null($image)) {
+                return response()->json([
+                    "status_code" => 400,
+                    "status" => "error",
+                    "message" => "pole text i image nie mogą być puste!",
+                ], 400);
+            }
 
 
             $array_validator = [
@@ -40,7 +49,6 @@ class EditController extends Controller
                 "quiz_id" => "required|uuid|exists:quiz_table,id",
                 "type_id" => "required|uuid|exists:type_table,id",
                 "user_id" => "required",
-                "text" => "required|min:10",
             ];
             $array_message = [
                 "required" => "Pole :attribute nie może być puste!",
@@ -50,7 +58,6 @@ class EditController extends Controller
                 'question_id.exists' => 'Brak takie id question!',
                 'quiz_id.exists' => 'Brak takie id quizu!',
                 'type_id.exists' => 'Brak takie id typu!',
-                'min' => 'Pole :attribute musi mieć minimum :min znaków!',
             ];
 
             if ($request->hasFile('image')) {
@@ -60,7 +67,6 @@ class EditController extends Controller
                     "quiz_id" => "required|uuid|exists:quiz_table,id",
                     "type_id" => "required|uuid|exists:type_table,id",
                     "user_id" => "required",
-                    "text" => "required|min:10",
                     "image" => "mimes:jpeg,png,jpg|between:0,5120"
                 ];
 
@@ -72,7 +78,6 @@ class EditController extends Controller
                     'question_id.exists' => 'Brak takie id question!',
                     'quiz_id.exists' => 'Brak takie id quizu!',
                     'type_id.exists' => 'Brak takie id typu!',
-                    'min' => 'Pole :attribute musi mieć minimum :min znaków!',
                     'mimes' => 'Wymagane rozszerzenia to jpg, jpeg i png, a jest załadowne: ' . $image->getClientOriginalExtension(),
                     'between' => 'Zdjęcie waży: ' . $formatBytes->formatBytes($image->getSize()) . ', a musi ważyć od 0 do 5M!'
                 ];

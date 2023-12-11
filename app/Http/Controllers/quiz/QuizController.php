@@ -129,6 +129,7 @@ class QuizController extends Controller
             $name = $request->input('name');
             $user_id = $request->input('user_id');
             $description = $request->input('description');
+            $quantity = $request->input('quantity');
             $file = $request->file('image');
             $formatBytes = new Functions();
             $comparison = new Functions();
@@ -136,13 +137,15 @@ class QuizController extends Controller
             $array_with_image = [
                 "user_id" => "required",
                 "name" => "required|min:10|max:40",
-                "description" => "required|min:20|max:400"
+                "description" => "required|min:20|max:400",
+                "quantity" => "required|numeric"
             ];
 
             $array_message = [
                 "required" => "Pole :attribute nie może być puste!",
                 'min' => 'Pole :attribute musi mieć minimum :min znaków!',
-                'max' => 'Pole :attribute może mieć maksylamnie :max znaków!'
+                'max' => 'Pole :attribute może mieć maksylamnie :max znaków!',
+                "numeric" => "Quantity musi być liczbą!"
             ];
 
             if ($file) {
@@ -150,6 +153,7 @@ class QuizController extends Controller
                     "user_id" => "required",
                     "name" => "required|min:10|max:40",
                     "description" => "required|min:20|max:400",
+                    "quantity" => "required|numeric",
                     "image" => "mimes:jpeg,png,jpg|between:0,5120"
                 ];
 
@@ -157,6 +161,7 @@ class QuizController extends Controller
                     "required" => "Pole :attribute nie może być puste!",
                     'min' => 'Pole :attribute musi mieć minimum :min znaków!',
                     'max' => 'Pole :attribute może mieć maksylamnie :max znaków!',
+                    "numeric" => "Quantity musi być liczbą!",
                     'mimes' => 'Wymagane rozszerzenia to jpg, jpeg i png, a jest załadowne: ' . $file->getClientOriginalExtension(),
                     'between' => 'Zdjęcie waży: ' . $formatBytes->formatBytes($file->getSize()) . ', a musi ważyć od 0 do 5M!'
                 ];
@@ -201,6 +206,7 @@ class QuizController extends Controller
             $quiz->user_id = $user_id;
             $quiz->name = $name;
             $quiz->description = $description;
+            $quiz->quantity = $quantity;
 
 
             $quiz->save();
@@ -230,6 +236,7 @@ class QuizController extends Controller
             $user_id = $request->input("user_id");
             $name = $request->input('name');
             $description = $request->input('description');
+            $quantity = $request->input('quantity');
             $file = $request->file('image');
             $formatBytes = new Functions();
             $comparison = new Functions();
@@ -239,6 +246,7 @@ class QuizController extends Controller
                 "user_id" => "required",
                 "name" => "required|min:10|max:40",
                 "description" => "required|min:20|max:400",
+                "quantity" => "required|numeric"
             ];
             $array_message = [
                 "required" => "Pole :attribute nie może być puste!",
@@ -246,6 +254,7 @@ class QuizController extends Controller
                 'exists' => 'Brak takie id quizu!',
                 'min' => 'Pole :attribute musi mieć minimum :min znaków!',
                 'max' => 'Pole :attribute może mieć maksylamnie :max znaków!',
+                "numeric" => "Quantity musi być liczbą!"
             ];
 
             if ($file) {
@@ -254,6 +263,7 @@ class QuizController extends Controller
                     "user_id" => "required",
                     "name" => "required|min:10|max:40",
                     "description" => "required|min:20|max:200",
+                    "quantity" => "required|numeric",
                     "image" => "mimes:jpeg,png,jpg|between:0,5120"
                 ];
 
@@ -263,6 +273,7 @@ class QuizController extends Controller
                     'exists' => 'Brak takie id quizu!',
                     'min' => 'Pole :attribute musi mieć minimum :min znaków!',
                     'max' => 'Pole :attribute może mieć maksylamnie :max znaków!',
+                    "numeric" => "Quantity musi być liczbą!",
                     'mimes' => 'Wymagane rozszerzenia to jpg, jpeg i png, a jest załadowne: ' . $file->getClientOriginalExtension(),
                     'between' => 'Zdjęcie waży: ' . $formatBytes->formatBytes($file->getSize()) . ', a musi ważyć od 0 do 5M!'
                 ];
@@ -323,6 +334,9 @@ class QuizController extends Controller
                 $quiz->link_image = '';
             }
 
+            $quiz->name = $name;
+            $quiz->description = $description;
+            $quiz->quantity = $quantity;
             $quiz->save();
 
             return response()->json([
