@@ -198,24 +198,26 @@ ________________________________________________________________________________
 _________________________________________________________________________________________________________________________________________________________
 ### Add_Quiz
 ### Przyjmuje obiekt o strukturze:
-| method | url                                         | Form_Data                       |
-|--------|---------------------------------------------|---------------------------------|
-| post   | /api/routers/http/controllers/quiz/add_quiz | name, description, image        |
+| method | url                                         | Form_Data                           |
+|--------|---------------------------------------------|-------------------------------------|
+| post   | /api/routers/http/controllers/quiz/add_quiz | name, description, image, quantity  |
 ### Headers
 | name_headers   | value            |
 |----------------|------------------|
 |  Accept        | application/json |
 | authorization  | Bearer 'tu token'|
 ### Walidacja inputów z strony serwera
-| validation | description                         | belongs                             |
-|------------|-------------------------------------|-------------------------------------|
-| required   | nie może być puste                  | user_id, name, description, image   |
-| min:10     | minimalna długość                   | name                                |
-| min:20     | minimalna długość                   | description                         |
-| max:40     | maksymalna długość                  | name                                |
-| max:400    | maksymalna długość                  | description                         |
-| mimes      | rozszerzenie jpeg, jpg, pmg         | image                               |
-| size       | waga zdjęcia od 0 do 5M             | image                               |
+| validation | description                         | belongs                                       |
+|------------|-------------------------------------|-----------------------------------------------|
+| required   | nie może być puste                  | user_id, name, description, image, quantity   |
+| min:10     | minimalna długość                   | name                                          |
+| min:20     | minimalna długość                   | description                                   |
+| max:40     | maksymalna długość                  | name                                          |
+| max:400    | maksymalna długość                  | description                                   |
+| max:400    | maksymalna długość                  | description                                   |
+| integer    | musi być zapisane jako integer      | quantity                                      |
+| mimes      | rozszerzenie jpeg, jpg, pmg         | image                                         |
+| size       | waga zdjęcia od 0 do 5M             | image                                         |
 ### Serwer zwraca response:
 | response_json  | description                                         |
 |----------------|-----------------------------------------------------|
@@ -244,13 +246,14 @@ ________________________________________________________________________________
 ### Walidacja inputów z strony serwera
 | validation | description                                                                     | belongs                                   |
 |------------|---------------------------------------------------------------------------------|-------------------------------------------|
-| required   | nie może być puste                                                              | user_id, name, description, id            |
+| required   | nie może być puste                                                              | id, user_id, name, description, quantity  |
 | exists     | id musi zgadząć się w bazie                                                     | id                                        |
 | uuid       | id musi być poprawnie zapisane (nie zmieniaj id, które jest pobrane z serwera!) | id                                        |
 | min:10     | minimalna długość                                                               | name                                      |
 | min:20     | minimalna długość                                                               | description                               |
 | max:40     | maksymalna długość                                                              | name                                      |
 | max:400    | maksymalna długość                                                              | description                               |
+| integer    | musi być zapisane jako integer                                                  | quantity                                  |
 | mimes      | rozszerzenie jpeg, jpg, pmg                                                     | image                                     |
 | size       | waga zdjęcia od 0 do 5M                                                         | image                                     |
 ### Serwer zwraca response:
