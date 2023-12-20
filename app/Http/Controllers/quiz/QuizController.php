@@ -13,7 +13,6 @@ use App\Http\Controllers\HelperFunctions\Functions;
 use Storage;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
-use function PHPUnit\Framework\isNull;
 
 class QuizController extends Controller
 {

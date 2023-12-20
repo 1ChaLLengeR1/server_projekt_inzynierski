@@ -39,10 +39,15 @@ class getGame extends Controller
             $quiz = $quiz::where('id', $quiz_id)->first();
             $get_all_questions = $question::where('quiz_id', $quiz_id)->get();
 
+            $max_index = 3;
             $question = [];
             $answers = [];
 
-            foreach ($get_all_questions as $key => $item) {
+            foreach ($get_all_questions->shuffle() as $key => $item) {
+
+                if ($key === $max_index) {
+                    break;
+                }
 
                 $get_all_answers = $answer::where('question_id', $item['id'])->get();
 
