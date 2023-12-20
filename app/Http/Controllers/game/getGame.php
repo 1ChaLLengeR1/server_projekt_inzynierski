@@ -39,7 +39,7 @@ class getGame extends Controller
             $quiz = $quiz::where('id', $quiz_id)->first();
             $get_all_questions = $question::where('quiz_id', $quiz_id)->get();
 
-            $max_index = 3;
+            $max_index = $quiz->quantity;
             $question = [];
             $answers = [];
 
