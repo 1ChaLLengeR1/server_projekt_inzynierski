@@ -12,6 +12,8 @@ use App\Models\Answer;
 use App\Models\Type_Quiz;
 use App\Models\Quiz;
 
+use function PHPSTORM_META\type;
+
 class getGame extends Controller
 {
     public function getGame(Request $request, Quiz $quiz, Question $question, Answer $answer, Type_Quiz $type_quiz)
@@ -39,12 +41,12 @@ class getGame extends Controller
             $quiz = $quiz::where('id', $quiz_id)->first();
             $get_all_questions = $question::where('quiz_id', $quiz_id)->get();
 
+
             $max_index = $quiz->quantity;
             $question = [];
             $answers = [];
 
             foreach ($get_all_questions->shuffle() as $key => $item) {
-
                 if ($key === $max_index) {
                     break;
                 }

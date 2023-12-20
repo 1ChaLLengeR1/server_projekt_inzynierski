@@ -18,7 +18,7 @@ class Quiz extends Model
         'description' => 'string',
         'image_path' => 'string',
         'link_image' => 'string',
-        'quantity' => 'string'
+        'quantity' => 'integer'
     ];
 
 
