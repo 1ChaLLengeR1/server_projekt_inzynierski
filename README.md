@@ -12,6 +12,8 @@
 
 ### Backend: Artur Ścibor, czyli ja :)
 - więcej ode mnie: https://arturscibor.pl/projects/project/70a13d41-6d17-4dcf-b085-c6eb700febb7
+### Strona:
+- link: https://projektinzynierski.strona.arturscibor.pl/
 
 _________________________________________________________________________________________________________________________________________________________
 # Endpoint
