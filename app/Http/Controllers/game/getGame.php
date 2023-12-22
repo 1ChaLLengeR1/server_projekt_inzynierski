@@ -47,15 +47,18 @@ class getGame extends Controller
             $answers = [];
 
             foreach ($get_all_questions->shuffle() as $key => $item) {
-                if ($key === $max_index) {
-                    break;
+                if ($max_index > 0) {
+                    if ($key === $max_index) {
+                        break;
+                    }
                 }
+
 
                 $get_all_answers = $answer::where('question_id', $item['id'])->get();
 
                 $get_type_question = $type_quiz::where('id', $item['type_id'])->first();
 
-                foreach ($get_all_answers as $key => $item_answer) {
+                foreach ($get_all_answers->shuffle() as $key => $item_answer) {
                     $answers[] = (object)[
                         "id" => $item_answer['id'],
                         "question_id" => $item_answer['question_id'],
