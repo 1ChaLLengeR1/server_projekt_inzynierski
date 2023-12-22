@@ -684,11 +684,11 @@ ________________________________________________________________________________
 | message        | zwróci Ci informacje na temat error albo success    |
 | server_message | Zwróci Ci tylko ten komunikat, jeśli wyrzuci serwer |
 ### status code
-| status | description                                                                                                                |
-|--------|----------------------------------------------------------------------------------------------------------------------------|
-| 200    | pobierze obiekt gry                                                                                                        |
-| 400    | zwróci Ci informacje, któa walidacja jest nie poprawna                                                                     |
-| 500    | Wyrzuciło serwer                                                                                                           |
+| status | description                                                                                                                                   |
+|--------|-----------------------------------------------------------------------------------------------------------------------------------------------|
+| 200    | pobierze obiekt gry, jeśli quantity w quizie do gry wynosi 0 to pobierze wszystkie pytania do tej gry. Jeśli 10 quantity to pobierze tylko 10 |
+| 400    | zwróci Ci informacje, któa walidacja jest nie poprawna                                                                                        |
+| 500    | Wyrzuciło serwer                                                                                                                              |
 _________________________________________________________________________________________________________________________________________________________
 ### Get_Result
 ### Przyjmuje obiekt o strukturze:
