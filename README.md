@@ -4,11 +4,14 @@
 - Laravel 10 + JWT
 - PostgreSQL
 
+### UI/UX Designer: Maks Kowalski
+- FB: https://www.facebook.com/superchlopak07
+
 ### Frontend: Wiktor Szot
 - link github: https://github.com/Szocik01
 
 ### Backend: Artur Ścibor, czyli ja :)
-
+- więcej ode mnie: https://arturscibor.pl/projects/project/70a13d41-6d17-4dcf-b085-c6eb700febb7
 
 _________________________________________________________________________________________________________________________________________________________
 # Endpoint
