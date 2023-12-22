@@ -1,6 +1,17 @@
+# Twórcy aplikacji
+### Użyte technologie:
+- React.js
+- Laravel 10 + JWT
+- PostgreSQL
+
+### Frontend: Wiktor Szot
+- link github: https://github.com/Szocik01
+
+### Backend: Artur Ścibor, czyli ja :)
+
+
+_________________________________________________________________________________________________________________________________________________________
 # Endpoint
-
-
 ### Rejestracja
 ### Przyjmuje obiekt o strukturze:
 | method | url                                      | body                        |
