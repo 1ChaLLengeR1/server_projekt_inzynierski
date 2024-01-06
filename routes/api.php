@@ -105,11 +105,11 @@ try {
 
     Route::post('routers/http/controllers/game/get_result', [GetResults::class, 'GetResult']);
 
+    Route::post('routers/http/controllers/game/get_game', [getGame::class, 'getGame']);
+
     Route::group(["middleware" => "auth:api"], function () {
 
         Route::post('routers/http/controllers/game/add_edit_result', [AddEditResult::class, 'AddEdit']);
-
-        Route::post('routers/http/controllers/game/get_game', [getGame::class, 'getGame']);
     });
 } catch (Throwable $e) {
     return response()->json([

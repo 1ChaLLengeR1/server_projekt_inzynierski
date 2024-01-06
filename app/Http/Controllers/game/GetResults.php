@@ -34,9 +34,9 @@ class GetResults extends Controller
 
 
             if ($limit === null) {
-                $result = $result::where('quiz_id', $quiz_id)->orderBy('result', 'asc')->get();
+                $result = $result::where('quiz_id', $quiz_id)->orderBy('result', 'desc')->get();
             } else {
-                $result = $result::where('quiz_id', $quiz_id)->orderBy('result', 'asc')->limit($limit)->get();
+                $result = $result::where('quiz_id', $quiz_id)->orderBy('result', 'desc')->limit($limit)->get();
             }
 
             return response()->json($result, 200);

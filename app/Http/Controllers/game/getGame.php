@@ -53,7 +53,6 @@ class getGame extends Controller
                     }
                 }
 
-
                 $get_all_answers = $answer::where('question_id', $item['id'])->get();
 
                 $get_type_question = $type_quiz::where('id', $item['type_id'])->first();
