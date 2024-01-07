@@ -55,7 +55,7 @@ class AddEditResult extends Controller
             }
 
 
-            $game_result = $game_result::where("user_id", $user_id)->first();
+            $game_result = $game_result::where("quiz_id", $quiz_id)->first();
             if ($game_result === null) {
 
                 $user = $user::where('id', $user_id)->first();
