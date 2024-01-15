@@ -55,41 +55,42 @@ class AddEditResult extends Controller
             }
 
 
-            $game_result = $game_result::where("quiz_id", $quiz_id)->first();
-            if ($game_result === null) {
+            $game_result = $game_result::where("quiz_id", $quiz_id)->where("user_id", $user_id)->first();
 
-                $user = $user::where('id', $user_id)->first();
-                $game_result = new GameResult();
 
-                $game_result->id = Uuid::uuid4()->toString();
-                $game_result->quiz_id = $quiz_id;
-                $game_result->name = $user->username;
+            if ($game_result && $game_result->result < $result) {
                 $game_result->result = $result;
-                $game_result->user_id = $user_id;
                 $game_result->save();
-
                 return response()->json([
-                    "status_code" => 201,
+                    "status_code" => 200,
                     "status" => "success",
-                    "message" => "Dodano nowy wynik do tabeli!",
-                ], 201);
-            } else {
-                if ($game_result->result < $result) {
-                    $game_result->result = $result;
-                    $game_result->save();
-                    return response()->json([
-                        "status_code" => 200,
-                        "status" => "success",
-                        "message" => "Wynik został poprawiony!",
-                    ], 200);
-                } else {
-                    return response()->json([
-                        "status_code" => 200,
-                        "status" => "success",
-                        "message" => "Twój najlepszy wynik to {$game_result->result}, a obecny to {$result}."
-                    ], 200);
-                }
+                    "message" => "Wynik został poprawiony!",
+                ], 200);
             }
+
+            if ($game_result && $game_result->result > $result) {
+                return response()->json([
+                    "status_code" => 200,
+                    "status" => "success",
+                    "message" => "Twój najlepszy wynik to {$game_result->result}, a obecny to {$result}."
+                ], 200);
+            }
+
+            $user = $user::where('id', $user_id)->first();
+            $game_result = new GameResult();
+
+            $game_result->id = Uuid::uuid4()->toString();
+            $game_result->quiz_id = $quiz_id;
+            $game_result->name = $user->username;
+            $game_result->result = $result;
+            $game_result->user_id = $user_id;
+            $game_result->save();
+
+            return response()->json([
+                "status_code" => 201,
+                "status" => "success",
+                "message" => "Dodano nowy wynik do tabeli!",
+            ], 201);
         } catch (Throwable $e) {
             return response()->json([
                 "status_code" => 500,
