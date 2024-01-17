@@ -68,7 +68,7 @@ class AddEditResult extends Controller
                 ], 200);
             }
 
-            if ($game_result && $game_result->result > $result) {
+            if ($game_result && $game_result->result >= $result) {
                 return response()->json([
                     "status_code" => 200,
                     "status" => "success",
